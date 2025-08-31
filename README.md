@@ -1,4 +1,4 @@
-# AutoML-Gr4
+# AutoML
 
 ## Aperçu du projet
 
