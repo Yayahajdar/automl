@@ -110,3 +110,134 @@ class TestViews:
             }
         )
         assert response.status_code == 302  # Redirect after operation
+
+    @pytest.fixture
+    def trained_classification_model(self, uploaded_csv_file):
+        # Create a simple classification dataset
+        data = {
+            'feature1': [1, 2, 3, 4, 5],
+            'feature2': [2, 4, 6, 8, 10],
+            'target': ['A', 'B', 'A', 'B', 'A']
+        }
+        df = pd.DataFrame(data)
+        model_path = uploaded_csv_file.file.path
+        df.to_csv(model_path, index=False)
+        
+        # Train the model
+        from sklearn.linear_model import LogisticRegression
+        X = df[['feature1', 'feature2']]
+        y = df['target']
+        model = LogisticRegression(random_state=42)
+        model.fit(X, y)
+        
+        # Save the model
+        metrics = {
+            'accuracy': 1.0,
+            'classification_report': 'Test Report',
+            'original_classes': ['A', 'B']
+        }
+        uploaded_csv_file.save_ml_model('test_classifier', model, ['feature1', 'feature2'], 'classification', metrics)
+        return uploaded_csv_file
+
+    def test_model_classification(self, authenticated_client, trained_classification_model):
+        # Test GET request
+        response = authenticated_client.get(
+            reverse('test_model', kwargs={'pk': trained_classification_model.pk, 'model_name': 'test_classifier'})
+        )
+        assert response.status_code == 200
+
+        # Test POST request with valid data
+        response = authenticated_client.post(
+            reverse('test_model', kwargs={'pk': trained_classification_model.pk, 'model_name': 'test_classifier'}),
+            {'feature1': '1', 'feature2': '2'}
+        )
+        assert response.status_code == 200
+        assert 'prediction' in response.context
+        assert response.context['prediction'] in ['A', 'B']
+        assert 'class_probabilities' in response.context
+
+        # Test POST request with missing feature
+        response = authenticated_client.post(
+            reverse('test_model', kwargs={'pk': trained_classification_model.pk, 'model_name': 'test_classifier'}),
+            {'feature1': '1'}
+        )
+        assert response.status_code == 200
+        messages = list(response.context['messages'])
+        assert any('Please enter a value for feature2' in str(message) for message in messages)
+
+        # Test POST request with invalid data
+        response = authenticated_client.post(
+            reverse('test_model', kwargs={'pk': trained_classification_model.pk, 'model_name': 'test_classifier'}),
+            {'feature1': 'invalid', 'feature2': '2'}
+        )
+        assert response.status_code == 200
+        messages = list(response.context['messages'])
+        assert any('Invalid value for feature1' in str(message) for message in messages)
+
+        # Test with non-existent model
+        response = authenticated_client.get(
+            reverse('test_model', kwargs={'pk': trained_classification_model.pk, 'model_name': 'nonexistent_model'})
+        )
+        assert response.status_code == 302  # Redirects to view_csv
+
+    @pytest.fixture
+    def trained_regression_model(self, uploaded_csv_file):
+        # Create a simple regression dataset
+        data = {
+            'feature1': [1, 2, 3, 4, 5],
+            'feature2': [2, 4, 6, 8, 10],
+            'target': [10, 20, 30, 40, 50]
+        }
+        df = pd.DataFrame(data)
+        model_path = uploaded_csv_file.file.path
+        df.to_csv(model_path, index=False)
+        
+        # Train the model
+        from sklearn.linear_model import LinearRegression
+        X = df[['feature1', 'feature2']]
+        y = df['target']
+        model = LinearRegression()
+        model.fit(X, y)
+        
+        # Save the model
+        metrics = {
+            'r2_score': 1.0,
+            'mean_squared_error': 0.0
+        }
+        uploaded_csv_file.save_ml_model('test_regressor', model, ['feature1', 'feature2'], 'regression', metrics)
+        return uploaded_csv_file
+
+    def test_model_regression(self, authenticated_client, trained_regression_model):
+        # Test GET request
+        response = authenticated_client.get(
+            reverse('test_model', kwargs={'pk': trained_regression_model.pk, 'model_name': 'test_regressor'})
+        )
+        assert response.status_code == 200
+
+        # Test POST request with valid data
+        response = authenticated_client.post(
+            reverse('test_model', kwargs={'pk': trained_regression_model.pk, 'model_name': 'test_regressor'}),
+            {'feature1': '1', 'feature2': '2'}
+        )
+        assert response.status_code == 200
+        assert 'prediction' in response.context
+        assert isinstance(float(response.context['prediction']), float)
+        assert 'class_probabilities' not in response.context  # Regression models don't have class probabilities
+
+        # Test POST request with missing feature
+        response = authenticated_client.post(
+            reverse('test_model', kwargs={'pk': trained_regression_model.pk, 'model_name': 'test_regressor'}),
+            {'feature1': '1'}
+        )
+        assert response.status_code == 200
+        messages = list(response.context['messages'])
+        assert any('Please enter a value for feature2' in str(message) for message in messages)
+
+        # Test POST request with invalid data
+        response = authenticated_client.post(
+            reverse('test_model', kwargs={'pk': trained_regression_model.pk, 'model_name': 'test_regressor'}),
+            {'feature1': 'invalid', 'feature2': '2'}
+        )
+        assert response.status_code == 200
+        messages = list(response.context['messages'])
+        assert any('Invalid value for feature1' in str(message) for message in messages)

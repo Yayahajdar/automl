@@ -1,0 +1,66 @@
+<!-- ML Training Section -->
+<div class="card mt-4">
+    <div class="card-header">
+        <h5 class="mb-0">Machine Learning Training</h5>
+    </div>
+    <div class="card-body">
+        <form method="POST" action="{% url 'train_model' csv_file.pk %}">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="target_column" class="form-label">Select Target Column</label>
+                <select class="form-select" name="target_column" id="target_column" required>
+                    {% for column in columns %}
+                        <option value="{{ column }}">{{ column }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            
+            <div class="mb-3">
+                <label for="model_type" class="form-label">Model Type</label>
+                <select class="form-select" name="model_type" id="model_type" required>
+                    <option value="classification">Classification</option>
+                    <option value="regression">Regression</option>
+                </select>
+            </div>
+            
+            <div class="mb-3">
+                <label for="algorithm" class="form-label">Algorithm</label>
+                <select class="form-select" name="algorithm" id="algorithm" required>
+                    <option value="rf">Random Forest</option>
+                    <option value="xgb">XGBoost</option>
+                    <option value="linear">Linear Model</option>
+                </select>
+            </div>
+            
+            <button type="submit" class="btn btn-primary">Train Model</button>
+        </form>
+    </div>
+</div>
+
+<!-- Model Results Section (shown after training) -->
+<div class="card mt-4">
+    <div class="card-header">
+        <h5 class="mb-0">Résultats de l'entraînement ML</h5>
+    </div>
+    <div class="card-body">
+        {% for model_name, model_info in csv_file.ml_models.items %}
+        <div class="mb-4">
+            <h6>{{ model_name }}</h6>
+            {% if model_info.model_type == 'classification' %}
+                <p><strong>Type :</strong> Classification</p>
+            {% else %}
+                <p><strong>Type :</strong> Régression</p>
+            {% endif %}
+            <p><strong>Caractéristiques :</strong> {{ model_info.features|join:', ' }}</p>
+            <p><strong>Colonne cible :</strong> {{ model_info.target_column }}</p>
+            <p><strong>Créé le :</strong> {{ model_info.created_at|date:"d/m/Y H:i" }}</p>
+            
+            <a href="{% url 'test_model' csv_file.pk model_name %}" class="btn btn-primary btn-sm">
+                Tester le modèle
+            </a>
+        </div>
+        {% empty %}
+        <p>Aucun modèle entraîné pour le moment.</p>
+        {% endfor %}
+    </div>
+</div>

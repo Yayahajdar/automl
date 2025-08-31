@@ -1,0 +1,146 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-12">
+            <h2>{{ csv_file.title }}</h2>
+            
+            <!-- Résultats de l'entraînement des modèles -->
+            {% if request.session.model_training_results_pk %}
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h3>Résultats de l'entraînement des modèles</h3>
+                </div>
+                <div class="card-body">
+                    {% for model_name, metrics in request.session.model_training_results_pk.items %}
+                    <div class="mb-3">
+                        <h4>{{ model_name }}</h4>
+                        <ul class="list-unstyled">
+                            {% for metric, value in metrics.items %}
+                            <li>{{ metric }}: {{ value }}</li>
+                            {% endfor %}
+                        </ul>
+                        <a href="{% url 'test_model' pk=csv_file.pk model_name=model_name %}" class="btn btn-primary">
+                            Tester ce modèle
+                        </a>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Formulaire de test du modèle -->
+            {% if request.session.model_test_form_pk %}
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h3>Tester le modèle</h3>
+                </div>
+                <div class="card-body">
+                    <form method="post" action="{% url 'test_model' pk=csv_file.pk %}">
+                        {% csrf_token %}
+                        {% for feature in request.session.model_test_form_pk.features %}
+                        <div class="form-group mb-3">
+                            <label for="{{ feature }}">{{ feature }}</label>
+                            <input type="number" step="any" class="form-control" id="{{ feature }}" name="{{ feature }}" required>
+                        </div>
+                        {% endfor %}
+                        <button type="submit" class="btn btn-primary">Faire une prédiction</button>
+                    </form>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Résultats du test du modèle -->
+            {% if request.session.model_test_results_pk %}
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h3>Résultat de la prédiction</h3>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-success">
+                        {{ request.session.model_test_results_pk.prediction }}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Actions principales -->
+            <div class="mb-4">
+                <a href="{% url 'train_model' pk=csv_file.pk %}" class="btn btn-primary">
+                    Entraîner un modèle
+                </a>
+            </div>
+
+            <!-- Statistiques et visualisations -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h3>Statistiques du fichier</h3>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group">
+                        <li class="list-group-item">Nombre de lignes : {{ summary.rows }}</li>
+                        <li class="list-group-item">Nombre de colonnes : {{ summary.columns }}</li>
+                        <li class="list-group-item">Cellules vides : {{ summary.null_cells }}</li>
+                        <li class="list-group-item">Lignes dupliquées : {{ summary.duplicate_rows }}</li>
+                        <li class="list-group-item">Utilisation mémoire : {{ summary.memory_usage }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Statistiques des colonnes -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h3>Statistiques des colonnes</h3>
+                </div>
+                <div class="card-body">
+                    {% for column, stats in column_stats.items %}
+                    <div class="mb-4">
+                        <h4>{{ stats.name }}</h4>
+                        <ul class="list-group">
+                            <li class="list-group-item">Type : {{ stats.type }}</li>
+                            <li class="list-group-item">Valeurs manquantes : {{ stats.null_count }}</li>
+                            <li class="list-group-item">Valeurs uniques : {{ stats.unique_count }}</li>
+                            {% if stats.min %}
+                            <li class="list-group-item">Min : {{ stats.min }}</li>
+                            <li class="list-group-item">Max : {{ stats.max }}</li>
+                            <li class="list-group-item">Moyenne : {{ stats.mean }}</li>
+                            <li class="list-group-item">Médiane : {{ stats.median }}</li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Visualisations -->
+            {% if plots %}
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h3>Visualisations</h3>
+                </div>
+                <div class="card-body">
+                    {% for plot in plots %}
+                    <div class="mb-4">
+                        <div id="plot-{{ forloop.counter }}" class="plot-container"></div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- Scripts pour les visualisations -->
+{% if plots %}
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        {% for plot in plots %}
+        Plotly.newPlot('plot-{{ forloop.counter }}', {{ plot|safe }});
+        {% endfor %}
+    });
+</script>
+{% endif %}
+{% endblock %}

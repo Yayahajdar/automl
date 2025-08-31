@@ -25,8 +25,11 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles',  # هذا موجود مرة واحدة فقط
+    'django.contrib.staticfiles',   
+    'django_prometheus',
     'users.apps.UsersConfig',
+    "drf_spectacular",
+    "drf_spectacular_sidecar",
     'csv_processor.apps.CsvProcessorConfig',
     'crispy_forms',
     'crispy_bootstrap5',
@@ -44,6 +47,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_prometheus.middleware.PrometheusBeforeMiddleware',
+    'django_prometheus.middleware.PrometheusAfterMiddleware',
 ]
 
 ROOT_URLCONF = 'csv_analyzer.urls'
@@ -115,3 +120,23 @@ LOGOUT_REDIRECT_URL = 'login'
 LOGIN_URL = 'login'
 ALLOWED_HOSTS = ["*"]
 ALLOWED_HOSTS = ["123.45.67.89", "192.168.1.100", "localhost", "*"]
+
+# MLflow Configuration
+MLFLOW_TRACKING_URI = "file:./mlruns"  # Use file-based tracking (more reliable)
+MLFLOW_UI_PORT = 5000
+MLFLOW_EXPERIMENT_NAMES = {
+    'classification': 'csv_analyzer_classification',
+    'regression': 'csv_analyzer_regression'
+}
+
+# Django REST Framework + drf-spectacular
+REST_FRAMEWORK = {
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+}
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "CSV Analyzer API",
+    "DESCRIPTION": "API permettant le téléversement et le traitement de fichiers CSV, avec des fonctionnalités de prétraitement et d’analyse des données.",
+    "VERSION": "1.0.0",
+    "SERVE_INCLUDE_SCHEMA": False,  # حتى ما يدوّخ Swagger لما يجيب schema
+}

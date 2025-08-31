@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header">
+            <h2>Résultats des Modèles ML</h2>
+        </div>
+        <div class="card-body">
+            {% if csv_file.ml_models %}
+                {% for model_name, model_info in csv_file.ml_models.items %}
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <h3>{{ model_name }}</h3>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Type de modèle :</strong> {{ model_info.model_type }}</p>
+                        <p><strong>Caractéristiques :</strong> {{ model_info.features|join:', ' }}</p>
+                        
+                        {% if model_info.metrics %}
+                        <div class="metrics mb-3">
+                            <h4>Métriques :</h4>
+                            <ul>
+                                {% for metric, value in model_info.metrics.items %}
+                                <li>{{ metric }}: {{ value }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        {% endif %}
+                        
+                        <a href="{% url 'test_model' pk=csv_file.pk model_name=model_name %}" class="btn btn-primary">
+                            <i class="fas fa-vial"></i> Tester le modèle
+                        </a>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <p>Aucun modèle ML n'a été entraîné pour ce fichier.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

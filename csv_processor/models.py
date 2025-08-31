@@ -1,14 +1,11 @@
 from django.db import models
 from django.contrib.auth.models import User
-import os
 from django.utils import timezone
-
-# Create your models here.
+import joblib
+import os
+from django.conf import settings
 
 class CSVFile(models.Model):
-    """
-    Modèle pour stocker et gérer les fichiers CSV téléchargés
-    """
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Utilisateur')
     title = models.CharField(max_length=255, verbose_name='Titre')
     file = models.FileField(upload_to='csv_files/', verbose_name='Fichier')
@@ -18,6 +15,42 @@ class CSVFile(models.Model):
     operations_log = models.JSONField(default=list, blank=True, verbose_name='Journal des opérations')
     rows_count = models.IntegerField(default=0, verbose_name='Nombre de lignes')
     columns_count = models.IntegerField(default=0, verbose_name='Nombre de colonnes')
+    ml_models = models.JSONField(default=dict)
+
+    def save_ml_model(self, model_name, model, features, model_type, metrics=None):
+        """Sauvegarde un modèle ML avec ses métadonnées."""
+        if not hasattr(self, 'ml_models'):
+            self.ml_models = {}
+
+        model_dir = os.path.join(settings.MEDIA_ROOT, 'ml_models', str(self.pk))
+        os.makedirs(model_dir, exist_ok=True)
+        
+        model_path = os.path.join(model_dir, f'{model_name}.joblib')
+        ml_model = MLModel(model, features, model_type, metrics)
+        ml_model.save(model_path)
+        
+        self.ml_models[model_name] = {
+            'path': os.path.relpath(model_path, settings.MEDIA_ROOT),
+            'features': features,
+            'model_type': model_type,
+            'metrics': metrics or {}
+        }
+        self.save()
+        return True
+
+    def load_ml_model(self, model_name):
+        """Charge un modèle ML et ses métadonnées."""
+        if not self.ml_models or model_name not in self.ml_models:
+            return None, None
+
+        model_info = self.ml_models[model_name]
+        model_path = os.path.join(settings.MEDIA_ROOT, model_info['path'])
+        ml_model = MLModel.load(model_path)
+        
+        if ml_model is None:
+            return None, None
+        
+        return ml_model.model, model_info
 
     class Meta:
         verbose_name = 'Fichier CSV'
@@ -77,7 +110,79 @@ class Operation(models.Model):
 
     class Meta:
         ordering = ['-timestamp']
-        
+
+class MLModel:
+    def __init__(self, model, features, model_type, metrics=None):
+        self.model = model
+        self.features = features
+        self.model_type = model_type
+        self.metrics = metrics or {}
+
+    def save(self, path):
+        joblib.dump({
+            'model': self.model,
+            'features': self.features,
+            'model_type': self.model_type,
+            'metrics': self.metrics
+        }, path)
+
+    @classmethod
+    def load(cls, path):
+        if not os.path.exists(path):
+            return None
+        data = joblib.load(path)
+        return cls(
+            model=data['model'],
+            features=data['features'],
+            model_type=data['model_type'],
+            metrics=data.get('metrics', {})
+        )
+
+def save_ml_model(self, model_name, model, features, model_type, metrics=None):
+    """Sauvegarde un modèle ML avec ses métadonnées."""
+    if not hasattr(self, 'ml_models'):
+        self.ml_models = {}
+
+    model_dir = os.path.join(settings.MEDIA_ROOT, 'ml_models', str(self.pk))
+    os.makedirs(model_dir, exist_ok=True)
+    
+    model_path = os.path.join(model_dir, f'{model_name}.joblib')
+    ml_model = MLModel(model, features, model_type, metrics)
+    ml_model.save(model_path)
+    
+    self.ml_models[model_name] = {
+        'path': os.path.relpath(model_path, settings.MEDIA_ROOT),
+        'features': features,
+        'model_type': model_type,
+        'metrics': metrics or {}
+    }
+    self.save()
+    return True
+
+def load_ml_model(self, model_name):
+    """Charge un modèle ML et ses métadonnées."""
+    if not self.ml_models or model_name not in self.ml_models:
+        return None, None
+
+    model_info = self.ml_models[model_name]
+    model_path = os.path.join(settings.MEDIA_ROOT, model_info['path'])
+    ml_model = MLModel.load(model_path)
+    
+    if ml_model is None:
+        return None, None
+    
+    return ml_model.model, model_info
+
+
+
+from django.db import models
+
+class FakeErrorLog(models.Model):
+    message = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Error: {self.message[:50]}"
         
     
 

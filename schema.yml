@@ -1,0 +1,7 @@
+openapi: 3.0.3
+info:
+  title: CSV Analyzer API
+  version: 1.0.0
+  description: API permettant le téléversement et le traitement de fichiers CSV, avec des fonctionnalités de prétraitement et d’analyse des données.
+paths: {}
+components: {}

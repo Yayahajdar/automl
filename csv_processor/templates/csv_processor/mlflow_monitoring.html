@@ -1,0 +1,204 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}MLflow Monitoring - {{ block.super }}{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="card mb-4">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h3 class="mb-0">MLflow Monitoring</h3>
+                    <a href="{{ mlflow_ui_url }}" target="_blank" class="btn btn-primary">
+                        <i class="fas fa-external-link-alt me-1"></i> Open MLflow UI
+                    </a>
+                </div>
+                {% if error %}
+                <div class="alert alert-warning">
+                    <h5><i class="fas fa-exclamation-triangle me-2"></i>MLflow Error</h5>
+                    <p>{{ error }}</p>
+                    <p>Tracking URI: {{ tracking_uri }}</p>
+                    <p>Please make sure MLflow is properly configured and running.</p>
+                </div>
+                {% endif %}
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <h5>Classification Models</h5>
+                                </div>
+                                <div class="card-body">
+                                    {% if classification_runs %}
+                                        <div class="table-responsive">
+                                            <table class="table table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Model Name</th>
+                                                        <th>Accuracy</th>
+                                                        <th>Created</th>
+                                                        <th>Actions</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% for run in classification_runs %}
+                                                    <tr>
+                                                        <td>{{ run.name }}</td>
+                                                        <td>{{ run.metrics.accuracy|floatformat:4 }}</td>
+                                                        <td>{{ run.start_time|date:"Y-m-d H:i" }}</td>
+                                                        <td>
+                                                            <a href="{{ mlflow_ui_url }}/#/experiments/{{ run.experiment_id }}/runs/{{ run.run_id }}"
+                                                               target="_blank" class="btn btn-sm btn-info">
+                                                                <i class="fas fa-chart-line"></i>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    {% else %}
+                                        <div class="alert alert-info">
+                                            No classification models found.
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <h5>Regression Models</h5>
+                                </div>
+                                <div class="card-body">
+                                    {% if regression_runs %}
+                                        <div class="table-responsive">
+                                            <table class="table table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Model Name</th>
+                                                        <th>R² Score</th>
+                                                        <th>MSE</th>
+                                                        <th>Created</th>
+                                                        <th>Actions</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% for run in regression_runs %}
+                                                    <tr>
+                                                        <td>{{ run.name }}</td>
+                                                        <td>{{ run.metrics.r2_score|floatformat:4 }}</td>
+                                                        <td>{{ run.metrics.mean_squared_error|floatformat:4 }}</td>
+                                                        <td>{{ run.start_time|date:"Y-m-d H:i" }}</td>
+                                                        <td>
+                                                            <a href="{{ mlflow_ui_url }}/#/experiments/{{ run.experiment_id }}/runs/{{ run.run_id }}"
+                                                               target="_blank" class="btn btn-sm btn-info">
+                                                                <i class="fas fa-chart-line"></i>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    {% else %}
+                                        <div class="alert alert-info">
+                                            No regression models found.
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <h5>Model Performance Comparison</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div id="model-comparison-chart" style="height: 400px;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <h5>Recent Experiments</h5>
+                                </div>
+                                <div class="card-body">
+                                    {% if recent_runs %}
+                                        <div class="table-responsive">
+                                            <table class="table table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Model Name</th>
+                                                        <th>Type</th>
+                                                        <th>Features</th>
+                                                        <th>Target</th>
+                                                        <th>Created</th>
+                                                        <th>Actions</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% for run in recent_runs %}
+                                                    <tr>
+                                                        <td>{{ run.name }}</td>
+                                                        <td>{{ run.params.model_type }}</td>
+                                                        <td>{{ run.params.features_count }}</td>
+                                                        <td>{{ run.params.target_column }}</td>
+                                                        <td>{{ run.start_time|date:"Y-m-d H:i" }}</td>
+                                                        <td>
+                                                            <a href="{{ mlflow_ui_url }}/#/experiments/{{ run.experiment_id }}/runs/{{ run.run_id }}"
+                                                               target="_blank" class="btn btn-sm btn-info">
+                                                                <i class="fas fa-chart-line"></i>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    {% else %}
+                                        <div class="alert alert-info">
+                                            No recent experiments found.
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Model comparison chart
+        const modelComparisonData = {{ model_comparison_data|safe }};
+
+        if (modelComparisonData && modelComparisonData.length > 0) {
+            Plotly.newPlot('model-comparison-chart', modelComparisonData, {
+                title: 'Model Performance Comparison',
+                barmode: 'group',
+                xaxis: {
+                    title: 'Model'
+                },
+                yaxis: {
+                    title: 'Score'
+                }
+            });
+        }
+    });
+</script>
+{% endblock %}

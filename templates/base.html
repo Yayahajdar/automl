@@ -13,33 +13,33 @@
             font-family: 'Tajawal', sans-serif;
             background-color: #f8f9fa;
         }
-        
+
         .navbar {
             box-shadow: 0 2px 4px rgba(0,0,0,.1);
             background-color: white;
         }
-        
+
         .navbar-brand {
             font-weight: 700;
             font-size: 1.5rem;
         }
-        
+
         .nav-link {
             font-weight: 500;
         }
-        
+
         .alert {
             border-radius: 10px;
         }
-        
+
         .btn {
             font-weight: 500;
         }
-        
+
         .form-control {
             border-radius: 10px;
         }
-        
+
         .card {
             border: none;
             border-radius: 15px;
@@ -68,6 +68,16 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'upload_csv' %}">
                                 <i class="fas fa-upload me-2"></i>Télécharger
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'monitoring_dashboard' %}">
+                                <i class="fas fa-chart-area me-2"></i>Monitoring
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'mlflow_monitoring' %}">
+                                <i class="fas fa-chart-line me-2"></i>MLflow
                             </a>
                         </li>
                         <li class="nav-item">

@@ -1,25 +1,35 @@
-# Use an official Python runtime as a parent image
-FROM python:3.11-slim
+# Use a non-slim base image for ARM compatibility
+FROM python:3.11-bullseye
 
-# Set the working directory in the container
+# Set environment variables
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1
+
+# Set working directory
 WORKDIR /app
 
-# Copy the current directory contents into the container at /app
-COPY . /app
+# Install system dependencies for ARM compilation
+RUN apt-get update && \
+    apt-get install -y \
+    gcc \
+    python3-dev \
+    build-essential \
+    libpq-dev \
+    # ARM-specific headers and tools
+    linux-headers-arm64 \
+    libc6-dev-arm64-cross \
+    && rm -rf /var/lib/apt/lists/*
 
-# Install any needed packages specified in requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt
+# Upgrade pip and enforce binary wheel usage
+COPY requirements.txt .
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir --only-binary=:all: -r requirements.txt
 
-# Expose the necessary port (Django default is 8000)
-EXPOSE 8000
+# Copy application code
+COPY . .
 
-# Run migrations and collect static files
-RUN python manage.py migrate
+# Collect static files
 RUN python manage.py collectstatic --noinput
 
-# Define environment variable
-ENV DJANGO_SETTINGS_MODULE=csv_analyzer.settings
-
-# Command to run the application
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "csv_analyzer.wsgi:application"]
-
+# Start Gunicorn
+CMD ["gunicorn", "csv_analyzer.wsgi:application", "--bind", "0.0.0.0:8000"]

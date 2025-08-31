@@ -15,7 +15,7 @@
                     <li class="breadcrumb-item active">{{ csv_file.title }}</li>
                 </ol>
             </nav>
-            
+
             <div class="card mb-4">
                 <div class="card-header">
                     <div class="d-flex justify-content-between align-items-center">
@@ -117,6 +117,70 @@
                                             </a>
                                         {% endif %}
 
+                                        <!-- Machine Learning Section -->
+                                        {% if request.GET.show_form == 'ml' %}
+                                            <div class="card mb-2">
+                                                <div class="card-header">
+                                                    <h5 class="mb-0">🤖 Entraînement du Modèle ML</h5>
+                                                </div>
+                                                <div class="card-body">
+                                                    <form method="post" action="{% url 'train_ml_model' csv_file.pk %}">
+                                                        {% csrf_token %}
+                                                        <div class="mb-3">
+                                                            <label for="model_name" class="form-label">Nom du modèle</label>
+                                                            <input type="text" class="form-control" name="model_name" id="model_name" required placeholder="Entrez un nom pour votre modèle">
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <label for="target" class="form-label">Sélectionner la cible</label>
+                                                            <select class="form-select" name="target" id="target" required>
+                                                                <option value="" disabled selected>Choisissez la cible</option>
+                                                                {% for col in columns %}
+                                                                    <option value="{{ col }}">{{ col }}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <label for="features" class="form-label">Sélectionner les caractéristiques</label>
+                                                            <select class="form-select" name="features" id="features" multiple required>
+                                                                {% for col in columns %}
+                                                                    <option value="{{ col }}">{{ col }}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <label for="model_type" class="form-label">Type de modèle</label>
+                                                            <select class="form-select" name="model_type" id="model_type" required>
+                                                                <option value="regression">Régression</option>
+                                                                <option value="classification">Classification</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <label for="algorithm_type" class="form-label">Algorithme</label>
+                                                            <select class="form-select" name="algorithm_type" id="algorithm_type" required>
+                                                                <option value="random_forest">Random Forest</option>
+                                                                <option value="decision_tree">Decision Tree</option>
+                                                                <option value="linear">Linear/Logistic Regression</option>
+                                                            </select>
+                                                            <small class="form-text text-muted">
+                                                                Pour la régression: Linear Regression, Decision Tree, Random Forest<br>
+                                                                Pour la classification: Logistic Regression, Decision Tree, Random Forest
+                                                            </small>
+                                                        </div>
+                                                        <button type="submit" class="btn btn-success">
+                                                            <i class="fas fa-play me-2"></i>Entraîner le modèle
+                                                        </button>
+                                                        <a href="{% url 'view_csv' csv_file.pk %}" class="btn btn-secondary">
+                                                            <i class="fas fa-times me-2"></i>Annuler
+                                                        </a>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        {% else %}
+                                            <a href="?show_form=ml" class="btn btn-outline-success">
+                                                <i class="fas fa-robot me-2"></i>Entraîner le modèle ML
+                                            </a>
+                                        {% endif %}
+
                                         <!-- Existing Action Forms -->
                                         {% if request.GET.show_form == 'clean' %}
                                             <form method="post" action="{% url 'clean_data' csv_file.pk %}" class="mb-2">
@@ -189,7 +253,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <!-- Navigation par onglets -->
                     <ul class="nav nav-tabs" role="tablist">
                         <li class="nav-item" role="presentation">
@@ -210,6 +274,11 @@
                         <li class="nav-item" role="presentation">
                             <a class="nav-link" data-bs-toggle="tab" href="#history" role="tab" aria-controls="history" aria-selected="false">
                                 <i class="fas fa-history me-1"></i>Historique
+                            </a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" data-bs-toggle="tab" href="#monitoring" role="tab" aria-controls="monitoring" aria-selected="false">
+                                <i class="fas fa-chart-area me-1"></i>Monitoring
                             </a>
                         </li>
                     </ul>
@@ -242,7 +311,7 @@
                                         {% endfor %}
                                     </tbody>
                                 </table>
-                                
+
                                 <!-- Pagination -->
                                 {% if pagination.total_pages > 1 %}
                                 <nav aria-label="Navigation des pages">
@@ -371,6 +440,133 @@
                             </div>
                             {% endif %}
                         </div>
+
+                        <!-- Onglet Monitoring -->
+                        <div class="tab-pane fade" id="monitoring" role="tabpanel" aria-labelledby="monitoring-tab">
+                            <div class="row">
+                                <!-- Trained Models Section -->
+                                <div class="col-12 mb-4">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h5 class="mb-0">Modèles entraînés</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            {% if trained_models %}
+                                                <div class="table-responsive">
+                                                    <table class="table table-hover">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Nom du modèle</th>
+                                                                <th>Type</th>
+                                                                <th>Score</th>
+                                                                <th>Date d'entraînement</th>
+                                                                <th>Actions</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            {% for model in trained_models %}
+                                                            <tr>
+                                                                <td>{{ model.name }}</td>
+                                                                <td><span class="badge bg-info">{{ model.type }}</span></td>
+                                                                <td>{{ model.score|floatformat:3 }}</td>
+                                                                <td>{{ model.created_at|date:"d/m/Y H:i" }}</td>
+                                                                <td>
+                                                                    <div class="btn-group">
+                                                                        <a href="{% url 'test_model' pk=csv_file.pk model_name=model.name %}"
+                                                                           class="btn btn-sm btn-outline-primary">
+                                                                            <i class="fas fa-vial me-1"></i>Tester
+                                                                        </a>
+                                                                        <a href="{% url 'model_actions' pk=csv_file.pk model_name=model.name %}"
+                                                                           class="btn btn-sm btn-outline-secondary">
+                                                                            <i class="fas fa-cog me-1"></i>Gérer
+                                                                        </a>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            {% endfor %}
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            {% else %}
+                                                <p class="text-muted text-center">Aucun modèle entraîné pour le moment</p>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- System Performance Section -->
+                                <div class="col-md-6 mb-4">
+                                    <div class="card h-100">
+                                        <div class="card-header d-flex justify-content-between align-items-center">
+                                            <h5 class="mb-0">Performance du système</h5>
+                                            <button class="btn btn-sm btn-outline-secondary refresh-monitoring" title="Rafraîchir">
+                                                <i class="fas fa-sync-alt"></i>
+                                            </button>
+                                        </div>
+                                        <div class="card-body" id="system-performance">
+                                            <div class="mb-3">
+                                                <h6>CPU Usage</h6>
+                                                <div class="progress">
+                                                    <div class="progress-bar" role="progressbar" style="width: {{ cpu_usage }}%" aria-valuenow="{{ cpu_usage }}" aria-valuemin="0" aria-valuemax="100">{{ cpu_usage }}%</div>
+                                                </div>
+                                            </div>
+                                            <div class="mb-3">
+                                                <h6>Memory Usage</h6>
+                                                <div class="progress">
+                                                    <div class="progress-bar bg-info" role="progressbar" style="width: {{ memory_usage }}%" aria-valuenow="{{ memory_usage }}" aria-valuemin="0" aria-valuemax="100">{{ memory_usage }}%</div>
+                                                </div>
+                                            </div>
+                                            <div class="mb-3">
+                                                <h6>Disk Usage</h6>
+                                                <div class="progress">
+                                                    <div class="progress-bar bg-warning" role="progressbar" style="width: {{ disk_usage }}%" aria-valuenow="{{ disk_usage }}" aria-valuemin="0" aria-valuemax="100">{{ disk_usage }}%</div>
+                                                </div>
+                                            </div>
+                                            <div class="text-muted small text-end mt-2">
+                                                Dernière mise à jour: <span id="last-update">{{ last_update|default:"Jamais" }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-4">
+                                    <div class="card h-100">
+                                        <div class="card-header">
+                                            <h5 class="mb-0">Statistiques d'utilisation</h5>
+                                        </div>
+                                        <div class="card-body" id="usage-stats">
+                                            <ul class="list-group list-group-flush">
+                                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                    Temps de traitement moyen
+                                                    <span class="badge bg-primary rounded-pill">{{ avg_processing_time }}ms</span>
+                                                </li>
+                                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                    Requêtes par minute
+                                                    <span class="badge bg-success rounded-pill">{{ requests_per_minute }}</span>
+                                                </li>
+                                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                    Taille totale des fichiers
+                                                    <span class="badge bg-info rounded-pill">{{ total_files_size }}</span>
+                                                </li>
+                                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                    Nombre total d'opérations
+                                                    <span class="badge bg-secondary rounded-pill">{{ total_operations }}</span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 mb-4">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h5 class="mb-0">Graphique de performance</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <div id="performance-chart" style="height: 300px;"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -383,12 +579,157 @@
 
 {% block extra_js %}
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+
+
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+
+
+        // Initialize data visualizations
         {% for plot in plots %}
             var plotData = JSON.parse('{{ plot|safe }}');
             Plotly.newPlot('plot-{{ forloop.counter }}', plotData.data, plotData.layout);
         {% endfor %}
+
+        // Initialize performance chart
+        const performanceData = {
+            x: [],
+            y: [],
+            type: 'scatter',
+            mode: 'lines',
+            name: 'CPU Usage'
+        };
+
+        const layout = {
+            title: 'System Performance Over Time',
+            xaxis: { title: 'Time' },
+            yaxis: { title: 'Usage %' },
+            margin: { t: 30 }
+        };
+
+        Plotly.newPlot('performance-chart', [performanceData], layout);
+
+        // Monitoring refresh functionality
+        function updateMonitoring() {
+            fetch('{% url "get_monitoring_data" csv_file.pk %}')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.error) {
+                        throw new Error(data.error);
+                    }
+
+                    // Extract metrics from the nested structure
+                    const systemMetrics = data.system_metrics;
+                    const usageStats = data.usage_stats;
+
+                    // Update system performance
+                    document.querySelector('#system-performance .progress-bar').style.width = `${systemMetrics.cpu_usage}%`;
+                    document.querySelector('#system-performance .progress-bar').textContent = `${systemMetrics.cpu_usage}%`;
+
+                    document.querySelector('#system-performance .progress-bar.bg-info').style.width = `${systemMetrics.memory_usage.percent}%`;
+                    document.querySelector('#system-performance .progress-bar.bg-info').textContent = `${systemMetrics.memory_usage.percent}%`;
+
+                    document.querySelector('#system-performance .progress-bar.bg-warning').style.width = `${systemMetrics.disk_usage.percent}%`;
+                    document.querySelector('#system-performance .progress-bar.bg-warning').textContent = `${systemMetrics.disk_usage.percent}%`;
+
+                    // Update usage statistics if the elements exist
+                    const usageStatsElement = document.getElementById('usage-stats');
+                    if (usageStatsElement) {
+                        const avgTimeElement = usageStatsElement.querySelector('.badge.bg-primary');
+                        if (avgTimeElement) {
+                            avgTimeElement.textContent = `${usageStats.avg_processing_time.toFixed(2)}ms`;
+                        }
+
+                        const requestsElement = usageStatsElement.querySelector('.badge.bg-success');
+                        if (requestsElement) {
+                            requestsElement.textContent = usageStats.requests_per_minute;
+                        }
+
+                        const filesSizeElement = usageStatsElement.querySelector('.badge.bg-info');
+                        if (filesSizeElement) {
+                            const size = usageStats.total_files_size;
+                            const formattedSize = size > 1024 * 1024 ?
+                                `${(size / (1024 * 1024)).toFixed(2)} MB` :
+                                size > 1024 ?
+                                    `${(size / 1024).toFixed(2)} KB` :
+                                    `${size} B`;
+                            filesSizeElement.textContent = formattedSize;
+                        }
+
+                        const operationsElement = usageStatsElement.querySelector('.badge.bg-secondary');
+                        if (operationsElement) {
+                            operationsElement.textContent = usageStats.total_operations;
+                        }
+                    }
+
+                    // Update last update time
+                    const lastUpdateElement = document.getElementById('last-update');
+                    if (lastUpdateElement) {
+                        lastUpdateElement.textContent = new Date().toLocaleTimeString();
+                    }
+
+                    // Update performance chart
+                    const update = {
+                        x: [[new Date().toLocaleTimeString()]],
+                        y: [[systemMetrics.cpu_usage]]
+                    };
+                    Plotly.extendTraces('performance-chart', update, [0]);
+
+                    // Keep only last 30 points
+                    if (performanceData.x.length > 30) {
+                        Plotly.relayout('performance-chart', {
+                            xaxis: {
+                                range: [performanceData.x[performanceData.x.length - 30], performanceData.x[performanceData.x.length - 1]]
+                            }
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error('Error updating monitoring data:', error);
+                    // Show error notification to user
+                    const errorElement = document.createElement('div');
+                    errorElement.className = 'alert alert-danger alert-dismissible fade show';
+                    errorElement.innerHTML = `
+                        <strong>Error updating monitoring data:</strong> ${error.message}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    `;
+
+                    // Add to the monitoring tab
+                    const monitoringTab = document.getElementById('monitoring');
+                    if (monitoringTab) {
+                        // Remove any existing error alerts
+                        const existingAlerts = monitoringTab.querySelectorAll('.alert-danger');
+                        existingAlerts.forEach(alert => alert.remove());
+
+                        // Add the new error alert at the top
+                        monitoringTab.insertBefore(errorElement, monitoringTab.firstChild);
+                    }
+                });
+        }
+
+        // Initial update
+        updateMonitoring();
+
+        // Set up auto-refresh every 30 seconds
+        const monitoringInterval = setInterval(updateMonitoring, 30000);
+
+        // Manual refresh button
+        document.querySelector('.refresh-monitoring').addEventListener('click', function() {
+            this.classList.add('fa-spin');
+            updateMonitoring();
+            setTimeout(() => this.classList.remove('fa-spin'), 1000);
+        });
+
+        // Clean up interval when leaving the page
+        window.addEventListener('beforeunload', function() {
+            clearInterval(monitoringInterval);
+        });
     });
 </script>
 {% endblock %}

@@ -1,0 +1,260 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>System Monitoring Dashboard</h2>
+        <button class="btn btn-outline-primary refresh-monitoring">
+            <i class="fas fa-sync-alt"></i> Refresh
+        </button>
+    </div>
+    
+    <!-- System Metrics -->
+    <div class="card mb-4">
+        <div class="card-header bg-primary text-white">
+            <h3 class="h5 mb-0">System Metrics</h3>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <!-- CPU Usage -->
+                <div class="col-md-4">
+                    <div class="metric-card p-3 border rounded">
+                        <h4 class="h6">CPU Usage</h4>
+                        <div class="progress mb-2">
+                            <div class="progress-bar" role="progressbar" 
+                                 style="width: {{ system_metrics.cpu_usage }}%" 
+                                 aria-valuenow="{{ system_metrics.cpu_usage }}" 
+                                 aria-valuemin="0" aria-valuemax="100">
+                                {{ system_metrics.cpu_usage }}%
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Memory Usage -->
+                <div class="col-md-4">
+                    <div class="metric-card p-3 border rounded">
+                        <h4 class="h6">Memory Usage</h4>
+                        <div class="progress mb-2">
+                            <div class="progress-bar bg-info" role="progressbar" 
+                                 style="width: {{ system_metrics.memory_usage.percent }}%" 
+                                 aria-valuenow="{{ system_metrics.memory_usage.percent }}" 
+                                 aria-valuemin="0" aria-valuemax="100">
+                                {{ system_metrics.memory_usage.percent }}%
+                            </div>
+                        </div>
+                        <small class="text-muted">
+                            {{ system_metrics.memory_usage.used|filesizeformat }} / 
+                            {{ system_metrics.memory_usage.total|filesizeformat }}
+                        </small>
+                    </div>
+                </div>
+                
+                <!-- Disk Usage -->
+                <div class="col-md-4">
+                    <div class="metric-card p-3 border rounded">
+                        <h4 class="h6">Disk Usage</h4>
+                        <div class="progress mb-2">
+                            <div class="progress-bar bg-warning" role="progressbar" 
+                                 style="width: {{ system_metrics.disk_usage.percent }}%" 
+                                 aria-valuenow="{{ system_metrics.disk_usage.percent }}" 
+                                 aria-valuemin="0" aria-valuemax="100">
+                                {{ system_metrics.disk_usage.percent }}%
+                            </div>
+                        </div>
+                        <small class="text-muted">
+                            {{ system_metrics.disk_usage.used|filesizeformat }} / 
+                            {{ system_metrics.disk_usage.total|filesizeformat }}
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Usage Statistics -->
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <h3 class="h5 mb-0">Usage Statistics</h3>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <!-- Average Processing Time -->
+                <div class="col-md-3">
+                    <div class="metric-card p-3 border rounded">
+                        <h4 class="h6">Avg. Processing Time</h4>
+                        <p class="h4 mb-0" data-metric="avg_time">{{ usage_stats.avg_processing_time|floatformat:2 }}s</p>
+                    </div>
+                </div>
+                
+                <!-- Requests per Minute -->
+                <div class="col-md-3">
+                    <div class="metric-card p-3 border rounded">
+                        <h4 class="h6">Requests/Minute</h4>
+                        <p class="h4 mb-0" data-metric="requests">{{ usage_stats.requests_per_minute }}</p>
+                    </div>
+                </div>
+                
+                <!-- Total Files Size -->
+                <div class="col-md-3">
+                    <div class="metric-card p-3 border rounded">
+                        <h4 class="h6">Total Files Size</h4>
+                        <p class="h4 mb-0" data-metric="files_size">{{ usage_stats.total_files_size|filesizeformat }}</p>
+                    </div>
+                </div>
+                
+                <!-- Total Operations -->
+                <div class="col-md-3">
+                    <div class="metric-card p-3 border rounded">
+                        <h4 class="h6">Total Operations</h4>
+                        <p class="h4 mb-0" data-metric="operations">{{ usage_stats.total_operations }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.metric-card {
+    background-color: #f8f9fa;
+    transition: transform 0.2s;
+}
+.metric-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+.refresh-monitoring {
+    transition: transform 0.3s;
+}
+.refresh-monitoring.fa-spin {
+    transform: rotate(360deg);
+}
+</style>
+
+<script>
+function updateMetrics() {
+    // Show loading indicator
+    const statusElement = document.createElement('div');
+    statusElement.id = 'metrics-status';
+    statusElement.style.position = 'fixed';
+    statusElement.style.top = '10px';
+    statusElement.style.right = '10px';
+    statusElement.style.padding = '5px 10px';
+    statusElement.style.borderRadius = '3px';
+    statusElement.style.zIndex = '1000';
+    statusElement.textContent = 'Updating metrics...';
+    statusElement.style.backgroundColor = '#f8f9fa';
+    statusElement.style.border = '1px solid #dee2e6';
+    
+    // Remove any existing status element
+    const existingStatus = document.getElementById('metrics-status');
+    if (existingStatus) {
+        existingStatus.remove();
+    }
+    
+    document.body.appendChild(statusElement);
+    
+    fetch('/monitoring/metrics/')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.error) {
+                throw new Error(data.error);
+            }
+            
+            try {
+                // Update CPU Usage
+                const cpuBar = document.querySelector('.progress-bar[aria-valuenow]');
+                if (cpuBar) {
+                    cpuBar.style.width = data.system_metrics.cpu_usage + '%';
+                    cpuBar.textContent = data.system_metrics.cpu_usage + '%';
+                }
+                
+                // Update Memory Usage
+                const memoryBar = document.querySelectorAll('.progress-bar')[1];
+                if (memoryBar && data.system_metrics.memory_usage) {
+                    memoryBar.style.width = data.system_metrics.memory_usage.percent + '%';
+                    memoryBar.textContent = data.system_metrics.memory_usage.percent + '%';
+                }
+                
+                // Update Disk Usage
+                const diskBar = document.querySelectorAll('.progress-bar')[2];
+                if (diskBar && data.system_metrics.disk_usage) {
+                    diskBar.style.width = data.system_metrics.disk_usage.percent + '%';
+                    diskBar.textContent = data.system_metrics.disk_usage.percent + '%';
+                }
+                
+                // Update Usage Statistics
+                const avgTimeElement = document.querySelector('[data-metric="avg_time"]');
+                if (avgTimeElement && data.usage_stats.avg_processing_time !== undefined) {
+                    avgTimeElement.textContent = data.usage_stats.avg_processing_time.toFixed(2) + 's';
+                }
+                
+                const requestsElement = document.querySelector('[data-metric="requests"]');
+                if (requestsElement) {
+                    requestsElement.textContent = data.usage_stats.requests_per_minute;
+                }
+                
+                const filesSizeElement = document.querySelector('[data-metric="files_size"]');
+                if (filesSizeElement) {
+                    filesSizeElement.textContent = formatFileSize(data.usage_stats.total_files_size);
+                }
+                
+                const operationsElement = document.querySelector('[data-metric="operations"]');
+                if (operationsElement) {
+                    operationsElement.textContent = data.usage_stats.total_operations;
+                }
+                
+                // Update status
+                statusElement.textContent = 'Metrics updated successfully';
+                statusElement.style.backgroundColor = '#d4edda';
+                statusElement.style.border = '1px solid #c3e6cb';
+                
+                // Hide status after 2 seconds
+                setTimeout(() => {
+                    statusElement.remove();
+                }, 2000);
+            } catch (error) {
+                throw new Error(`Error processing data: ${error.message}`);
+            }
+        })
+        .catch(error => {
+            console.error('Error updating metrics:', error);
+            statusElement.textContent = `Error: ${error.message}`;
+            statusElement.style.backgroundColor = '#f8d7da';
+            statusElement.style.border = '1px solid #f5c6cb';
+            
+            // Hide status after 5 seconds
+            setTimeout(() => {
+                statusElement.remove();
+            }, 5000);
+        });
+}
+
+function formatFileSize(bytes) {
+    if (bytes === 0) return '0 Bytes';
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+}
+
+// Update metrics every 5 seconds
+setInterval(updateMetrics, 5000);
+
+// Initial update
+updateMetrics();
+
+// Manual refresh button
+document.querySelector('.refresh-monitoring').addEventListener('click', function() {
+    this.querySelector('i').classList.add('fa-spin');
+    updateMetrics();
+    setTimeout(() => this.querySelector('i').classList.remove('fa-spin'), 1000);
+});
+</script>
+{% endblock %}
