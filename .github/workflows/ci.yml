@@ -87,8 +87,4 @@ jobs:
         if: always()
         run: |
           docker rm -f app || true
-<<<<<<< HEAD
           docker image rm local/csv-analyzer:${{ github.sha }} || true
-=======
-          docker image rm local/csv-analyzer:${{ github.sha }} || true
->>>>>>> 06c38a5 (CI: build & test docker image locally in Actions)
