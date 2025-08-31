@@ -15,8 +15,6 @@ from datetime import datetime
 from .models import CSVFile
 from .forms import CSVUploadForm, DataCleaningForm, ColumnOperationForm
 
-class Config:
-    TEMP_HTML_FOLDER = "/tmp/streamlit/"
 
 def detect_delimiter(file_path):
     possible_delimiters = [',', ';', '\t', '|', '_', '-']
