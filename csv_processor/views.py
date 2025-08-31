@@ -40,9 +40,6 @@ from .serializers import CSVUploadSerializer
 from drf_spectacular.utils import extend_schema, OpenApiParameter
 from .metrics import APP_ERRORS_TOTAL
 
-class Config:
-    TEMP_HTML_FOLDER = "/tmp/streamlit/"
-    MODEL_FOLDER = os.path.join(settings.MEDIA_ROOT, 'models')
 
 @login_required
 def train_model(request, pk):
