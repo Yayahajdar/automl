@@ -33,6 +33,7 @@ import matplotlib.pyplot as plt
 import io
 import base64
 import joblib
+import logging
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -1767,8 +1768,12 @@ class TrainMLAPIView(APIView):
                     metrics_dict['mlflow_run_id'] = run_id
                     csv_file.save_ml_model(model_name, model, features, model_type, metrics=metrics_dict)
             except Exception as e:
-                # لا نفشل الـ API إذا فشل تسجيل MLflow
-                pass
+                # لا نفشل الـ API إذا فشل تسجيل MLflow if it failed 
+                logging.getLogger(__name__).exception(
+                    "MLflow logging failed during training (csv_id=%s, model=%s)", pk, model_name
+                )
+                APP_ERRORS_TOTAL.labels(type='mlflow_logging_failure').inc()
+                metrics_dict['mlflow_logging_failed'] = True
 
             return Response({
                 "message": "Model trained and saved",
