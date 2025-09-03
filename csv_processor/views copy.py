@@ -21,6 +21,7 @@ from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from .models import CSVFile
 from .forms import CSVUploadForm, DataCleaningForm, ColumnOperationForm
+from users.forms import UserRegisterForm
 from sklearn.model_selection import train_test_split, cross_val_score
 from sklearn.linear_model import LinearRegression, LogisticRegression
 from sklearn.tree import DecisionTreeClassifier, DecisionTreeRegressor

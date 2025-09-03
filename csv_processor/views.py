@@ -45,6 +45,7 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from .serializers import UserSerializer, UserCreateSerializer
 from prometheus_client import generate_latest
 from .metrics import APP_ERRORS_TOTAL
+from users.forms import UserRegisterForm
 
 
 @login_required
