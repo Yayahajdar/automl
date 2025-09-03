@@ -161,3 +161,6 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 AutoML-Gr4-1/
+media/ml_models/200/rr.joblib
+mlruns/222473558941626473/c5793f52511c4b1fba6a7092f757b590/artifacts/model/model.pkl
+mlruns/222473558941626473/6b84cb0fb19949fabe15138f2f5b1357/artifacts/model/model.pkl
