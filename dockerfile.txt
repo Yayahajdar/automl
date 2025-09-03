@@ -1,5 +1,5 @@
-# Use a non-slim base image for ARM compatibility
-FROM python:3.11-bullseye
+# Use a non-slim base image
+FROM python:3.11-slim
 
 # Set environment variables
 ENV PYTHONDONTWRITEBYTECODE=1 \
@@ -8,22 +8,19 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 # Set working directory
 WORKDIR /app
 
-# Install system dependencies for ARM compilation
+# Install system dependencies
 RUN apt-get update && \
-    apt-get install -y \
-    gcc \
-    python3-dev \
-    build-essential \
-    libpq-dev \
-    # ARM-specific headers and tools
-    linux-headers-arm64 \
-    libc6-dev-arm64-cross \
+    apt-get install -y --no-install-recommends \
+        gcc \
+        python3-dev \
+        build-essential \
+        libpq-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Upgrade pip and enforce binary wheel usage
+# Upgrade pip and install dependencies
 COPY requirements.txt .
 RUN pip install --no-cache-dir --upgrade pip && \
-    pip install --no-cache-dir --only-binary=:all: -r requirements.txt
+    pip install --no-cache-dir -r requirements.txt
 
 # Copy application code
 COPY . .
