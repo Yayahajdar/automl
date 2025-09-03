@@ -112,18 +112,20 @@ class Operation(models.Model):
         ordering = ['-timestamp']
 
 class MLModel:
-    def __init__(self, model, features, model_type, metrics=None):
+    def __init__(self, model, features, model_type, metrics=None, label_encoders=None):
         self.model = model
         self.features = features
         self.model_type = model_type
         self.metrics = metrics or {}
+        self.label_encoders = label_encoders or {}
 
     def save(self, path):
         joblib.dump({
             'model': self.model,
             'features': self.features,
             'model_type': self.model_type,
-            'metrics': self.metrics
+            'metrics': self.metrics,
+            'label_encoders': self.label_encoders
         }, path)
 
     @classmethod
@@ -135,7 +137,8 @@ class MLModel:
             model=data['model'],
             features=data['features'],
             model_type=data['model_type'],
-            metrics=data.get('metrics', {})
+            metrics=data.get('metrics', {}),
+            label_encoders=data.get('label_encoders', {})
         )
 
 def save_ml_model(self, model_name, model, features, model_type, metrics=None):

@@ -36,11 +36,10 @@ import joblib
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.permissions import IsAuthenticated
 from .serializers import CSVUploadSerializer, TrainMLRequestSerializer, TestModelRequestSerializer
-from drf_spectacular.utils import extend_schema, OpenApiParameter, OpenApiExample
+from drf_spectacular.utils import extend_schema, OpenApiParameter
 from drf_spectacular.types import OpenApiTypes
-from .serializers import TrainMLRequestSerializer, TestModelRequestSerializer, DeleteCSVSerializer
+from .serializers import TrainMLRequestSerializer, TestModelRequestSerializer
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from .serializers import UserSerializer, UserCreateSerializer
 from prometheus_client import generate_latest
@@ -218,10 +217,6 @@ def test_model(request, pk, model_name):
                 except Exception as e:
                     messages.error(request, f'Error making prediction: {str(e)}. The model might be corrupted or incompatible.')
                     return render(request, 'csv_processor/test_model.html', context)
-
-                # Ensure a default prediction is set in context even if mapping fails later
-                prediction_message = str(prediction[0])
-                context['prediction'] = prediction_message
 
                 # Normalize model_type to handle legacy models where target column name was used as model_type
                 normalized_model_type = model_info['model_type'].lower()
@@ -1536,66 +1531,23 @@ def mlflow_monitoring(request):
         }
         return render(request, 'csv_processor/mlflow_monitoring.html', context)
 @extend_schema(
-    request={
-        'multipart/form-data': {
-            'type': 'object',
-            'properties': {
-                'file': {'type': 'string', 'format': 'binary'}
-            },
-            'required': ['file'],
-        }
-    },
-    responses={
-        201: OpenApiTypes.OBJECT,
-        400: OpenApiTypes.OBJECT
-    },
-    examples=[
-        OpenApiExample(
-            name="Upload CSV example",
-            summary="Upload CSV File",
-            description="Upload a CSV file for processing",
-            value={'file': 'binary_file_content'},
-            request_only=True
-        )
-    ],
+    request=CSVUploadSerializer,
+    responses=CSVUploadSerializer,
     summary="Upload a CSV file via API"
 )
 class CSVUploadAPIView(APIView):
-    permission_classes = [IsAuthenticated]
-
     def post(self, request, *args, **kwargs):
         serializer = CSVUploadSerializer(data=request.data)
-        if not serializer.is_valid():
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-        file = serializer.validated_data['file']
-        csv_file = CSVFile(user=request.user, file=file)
-        csv_file.save()
-
-        try:
-            delimiter = detect_delimiter(csv_file.file.path)
-            df = pd.read_csv(csv_file.file.path, delimiter=delimiter)
-            columns = list(df.columns)
-            csv_file.rows_count = int(df.shape[0])
-            csv_file.columns_count = int(df.shape[1])
-            csv_file.save()
-        except Exception as e:
-            csv_file.delete()
-            return Response({"error": f"Erreur lecture CSV: {str(e)}"}, status=status.HTTP_400_BAD_REQUEST)
-
-        return Response({
-            "id": csv_file.pk,
-            "name": csv_file.title,
-            "path": csv_file.file.url if hasattr(csv_file.file, "url") else csv_file.file.name,
-            "columns": columns
-        }, status=status.HTTP_201_CREATED)
+        if serializer.is_valid():
+            
+             return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 @extend_schema(
     summary="Delete a CSV file by ID",
-    responses={200: DeleteCSVSerializer}
+    responses={200: OpenApiTypes.OBJECT}
 )
 class DeleteCSVAPIView(APIView):
     permission_classes = [IsAuthenticated]
-    serializer_class = DeleteCSVSerializer
 
     def post(self, request, pk):
         try:
@@ -1812,6 +1764,40 @@ class MetricsAPIView(APIView):
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
+@extend_schema(
+    request=CSVUploadSerializer,
+    responses={201: OpenApiTypes.OBJECT},
+    summary="Upload a CSV file via API"
+)
+class CSVUploadAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        serializer = CSVUploadSerializer(data=request.data)
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        file = serializer.validated_data['file']
+        csv_file = CSVFile(user=request.user, file=file)
+        csv_file.save()
+
+        try:
+            delimiter = detect_delimiter(csv_file.file.path)
+            df = pd.read_csv(csv_file.file.path, delimiter=delimiter)
+            columns = list(df.columns)
+            csv_file.rows_count = int(df.shape[0])
+            csv_file.columns_count = int(df.shape[1])
+            csv_file.save()
+        except Exception as e:
+            csv_file.delete()
+            return Response({"error": f"Erreur lecture CSV: {str(e)}"}, status=status.HTTP_400_BAD_REQUEST)
+
+        return Response({
+            "id": csv_file.pk,
+            "name": csv_file.title,
+            "path": csv_file.file.url if hasattr(csv_file.file, "url") else csv_file.file.name,
+            "columns": columns
+        }, status=status.HTTP_201_CREATED)
 
 @extend_schema(
     summary="Test a trained ML model",
@@ -1893,7 +1879,6 @@ def profile(request):
 )
 class CurrentUserAPIView(APIView):
     permission_classes = [IsAuthenticated]
-    serializer_class = UserSerializer  # Ajout de cette ligne
     
     def get(self, request):
         """Récupère les informations de l'utilisateur connecté"""
@@ -1915,7 +1900,6 @@ class CurrentUserAPIView(APIView):
 )
 class UserCreateAPIView(APIView):
     permission_classes = [AllowAny]
-    serializer_class = UserCreateSerializer  # Ajout de cette ligne
     
     def post(self, request):
         """Crée un nouvel utilisateur"""
@@ -1943,8 +1927,6 @@ class PrometheusMetricsAPIView(APIView):
             )
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
-            
 def simulate_error(request):
      
     APP_ERRORS_TOTAL.labels(type='simulated').inc()

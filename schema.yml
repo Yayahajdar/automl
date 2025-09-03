@@ -2,6 +2,436 @@ openapi: 3.0.3
 info:
   title: CSV Analyzer API
   version: 1.0.0
-  description: API permettant le téléversement et le traitement de fichiers CSV, avec des fonctionnalités de prétraitement et d’analyse des données.
-paths: {}
-components: {}
+  description: API permettant le téléversement et le traitement de fichiers CSV, avec
+    des fonctionnalités de prétraitement et d’analyse des données.
+paths:
+  /api/delete/{id}/:
+    post:
+      operationId: delete_create
+      summary: Delete a CSV file by ID
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - delete
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeleteCSV'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/DeleteCSV'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/DeleteCSV'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteCSV'
+          description: ''
+    delete:
+      operationId: delete_destroy
+      summary: Delete a CSV file by ID
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - delete
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteCSV'
+          description: ''
+  /api/export/csv/{id}/:
+    get:
+      operationId: export_csv_retrieve
+      summary: Export CSV file by ID
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - export
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: string
+                format: binary
+          description: ''
+  /api/metrics/:
+    get:
+      operationId: metrics_retrieve
+      summary: Get monitoring metrics (JSON)
+      tags:
+      - metrics
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: {}
+          description: ''
+  /api/monitoring/metrics/:
+    get:
+      operationId: monitoring_metrics_retrieve
+      summary: Get Prometheus metrics (text/plain)
+      tags:
+      - monitoring
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: string
+                format: binary
+          description: ''
+  /api/test-model/{id}/{model_name}/:
+    post:
+      operationId: test_model_create
+      summary: Test a trained ML model
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: model_name
+        schema:
+          type: string
+        required: true
+      tags:
+      - test-model
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TestModelRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TestModelRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TestModelRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: {}
+          description: ''
+  /api/train-ml/{id}/:
+    post:
+      operationId: train_ml_create
+      summary: Train a ML model
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - train-ml
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TrainMLRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TrainMLRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TrainMLRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: {}
+          description: ''
+  /api/upload-csv/:
+    post:
+      operationId: upload_csv_create
+      summary: Upload a CSV file via API
+      tags:
+      - upload-csv
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CSVUpload'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: {}
+          description: ''
+  /api/user/:
+    get:
+      operationId: user_retrieve
+      description: Permet de récupérer ou modifier les informations de l'utilisateur
+        connecté
+      summary: Opérations sur l'utilisateur actuel
+      tags:
+      - user
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+    put:
+      operationId: user_update
+      description: Permet de récupérer ou modifier les informations de l'utilisateur
+        connecté
+      summary: Opérations sur l'utilisateur actuel
+      tags:
+      - user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/User'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+  /api/user/register/:
+    post:
+      operationId: user_register_create
+      description: Permet de créer un nouvel utilisateur
+      summary: Création d'un nouvel utilisateur
+      tags:
+      - user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserCreate'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UserCreate'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UserCreate'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserCreate'
+          description: ''
+components:
+  schemas:
+    AlgorithmTypeEnum:
+      enum:
+      - random_forest
+      - decision_tree
+      - logistic
+      - linear
+      type: string
+      description: |-
+        * `random_forest` - random_forest
+        * `decision_tree` - decision_tree
+        * `logistic` - logistic
+        * `linear` - linear
+    CSVUpload:
+      type: object
+      properties:
+        file:
+          type: string
+          format: uri
+      required:
+      - file
+    DeleteCSV:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        detail:
+          type: string
+          readOnly: true
+      required:
+      - detail
+      - id
+    ModelTypeEnum:
+      enum:
+      - classification
+      - regression
+      type: string
+      description: |-
+        * `classification` - classification
+        * `regression` - regression
+    TestModelRequest:
+      type: object
+      properties:
+        inputs:
+          type: object
+          additionalProperties:
+            type: number
+            format: double
+      required:
+      - inputs
+    TrainMLRequest:
+      type: object
+      properties:
+        features:
+          type: array
+          items:
+            type: string
+        target:
+          type: string
+        model_type:
+          $ref: '#/components/schemas/ModelTypeEnum'
+        model_name:
+          type: string
+        algorithm_type:
+          allOf:
+          - $ref: '#/components/schemas/AlgorithmTypeEnum'
+          default: random_forest
+      required:
+      - features
+      - model_name
+      - model_type
+      - target
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        username:
+          type: string
+          title: Nom d’utilisateur
+          description: Requis. 150 caractères maximum. Uniquement des lettres, nombres
+            et les caractères « @ », « . », « + », « - » et « _ ».
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+        email:
+          type: string
+          format: email
+          title: Adresse électronique
+          maxLength: 254
+        first_name:
+          type: string
+          title: Prénom
+          maxLength: 150
+        last_name:
+          type: string
+          title: Nom
+          maxLength: 150
+      required:
+      - id
+      - username
+    UserCreate:
+      type: object
+      properties:
+        username:
+          type: string
+          title: Nom d’utilisateur
+          description: Requis. 150 caractères maximum. Uniquement des lettres, nombres
+            et les caractères « @ », « . », « + », « - » et « _ ».
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+        password:
+          type: string
+          writeOnly: true
+        password2:
+          type: string
+          writeOnly: true
+        email:
+          type: string
+          format: email
+          title: Adresse électronique
+          maxLength: 254
+        first_name:
+          type: string
+          title: Prénom
+          maxLength: 150
+        last_name:
+          type: string
+          title: Nom
+          maxLength: 150
+      required:
+      - password
+      - password2
+      - username
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionid

@@ -31,6 +31,17 @@
                     <div class="col-md-6 mb-3">
                         <div class="form-group">
                             <label for="{{ feature }}" class="form-label">{{ feature }}</label>
+                            {% if feature in 'Sex,Cabin,Name,Ticket,variety' %}
+                            <input type="text"
+                                   class="form-control {% if form.errors %}is-invalid{% endif %}"
+                                   id="{{ feature }}"
+                                   name="{{ feature }}"
+                                   value="{{ input_values|default:""|get_item:feature }}"
+                                   required>
+                            <div class="invalid-feedback">
+                                Please enter a valid value for {{ feature }}.
+                            </div>
+                            {% else %}
                             <input type="number"
                                    step="any"
                                    class="form-control {% if form.errors %}is-invalid{% endif %}"
@@ -41,6 +52,7 @@
                             <div class="invalid-feedback">
                                 Please enter a valid number for {{ feature }}.
                             </div>
+                            {% endif %}
                         </div>
                     </div>
                     {% endfor %}

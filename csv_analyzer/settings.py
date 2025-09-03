@@ -138,5 +138,12 @@ SPECTACULAR_SETTINGS = {
     "TITLE": "CSV Analyzer API",
     "DESCRIPTION": "API permettant le téléversement et le traitement de fichiers CSV, avec des fonctionnalités de prétraitement et d’analyse des données.",
     "VERSION": "1.0.0",
-    "SERVE_INCLUDE_SCHEMA": False,  # حتى ما يدوّخ Swagger لما يجيب schema
+    "SERVE_INCLUDE_SCHEMA": False,
+    "SCHEMA_PATH_PREFIX": None,  
+    "COMPONENT_SPLIT_REQUEST": True,
+    "SWAGGER_UI_SETTINGS": {
+        "deepLinking": True,
+        "persistAuthorization": True,
+        "displayOperationId": False,
+    },
 }
