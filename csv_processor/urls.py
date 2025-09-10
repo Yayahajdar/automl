@@ -12,6 +12,13 @@ from .views import (
     UserCreateAPIView,
     PrometheusMetricsAPIView,
 )
+from django.urls import path
+from django.contrib import admin    
+from prometheus_client import generate_latest, CONTENT_TYPE_LATEST
+from django.http import HttpResponse
+
+def metrics(request):
+    return HttpResponse(generate_latest(), content_type=CONTENT_TYPE_LATEST)
 
 # تنظيم المسارات حسب النوع (API vs Web UI)
 urlpatterns = [
@@ -34,6 +41,8 @@ urlpatterns = [
     path('clean/<int:pk>/', views.clean_data, name='clean_data'),
     path('column/<int:pk>/', views.column_operation, name='column_operation'),
     path('delete-row/<int:pk>/', views.delete_row, name='delete_row'),
+    path('feedback/', views.feedback, name='feedback'),
+    path('admin/', admin.site.urls),
     
     # Export Endpoints
     path('export/csv/<int:pk>/', views.export_csv, name='export_csv'),
@@ -54,6 +63,7 @@ urlpatterns = [
     path('monitoring/<int:pk>/data/', views.get_monitoring_data, name='get_monitoring_data'),
     path('monitoring/metrics/', views.get_metrics, name='get_metrics'),
     path('mlflow/', views.mlflow_monitoring, name='mlflow_monitoring'),
+    path('metrics/', metrics, name='metrics'),
     
     # Utility Endpoints
     path('simulate-error/', views.simulate_error, name='simulate_error'),
@@ -61,3 +71,4 @@ urlpatterns = [
     # External Endpoints
     path("", include("django_prometheus.urls")),
 ]
+

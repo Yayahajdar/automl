@@ -16,7 +16,12 @@ name iris_rf
 "petal.length": 4.7,
 "petal.width": 1.2
 }
+
 }
 
 ayhd
 Ayhd183
+
+
+python -m bandit -r csv_analyzer csv_processor -x csv_processor/tests,users/tests.py
+

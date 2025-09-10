@@ -1,4 +1,4 @@
-from django.http import HttpResponseServerError
+from .metrics import django_errors_total
 
-def trigger_500(request):
-    return HttpResponseServerError("Testing 500 error")
+django_errors_total.labels(error_type='test').inc()
+raise ValueError("Test error for Prometheus")

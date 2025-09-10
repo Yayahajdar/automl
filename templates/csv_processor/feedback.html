@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Votre retour</h2>
+
+{% if messages %}
+  {% for message in messages %}
+    <div class="alert alert-success">{{ message }}</div>
+  {% endfor %}
+{% endif %}
+
+<form method="post" novalidate>
+  {% csrf_token %}
+  <div>
+    {{ form.email.label_tag }}<br />
+    {{ form.email }}
+    {% if form.email.errors %}
+      <div class="error">{{ form.email.errors }}</div>
+    {% endif %}
+  </div>
+  <div style="margin-top:10px;">
+    {{ form.message.label_tag }}<br />
+    {{ form.message }}
+    {% if form.message.errors %}
+      <div class="error">{{ form.message.errors }}</div>
+    {% endif %}
+  </div>
+  <div style="margin-top:15px;">
+    <button type="submit" class="btn btn-primary">Envoyer</button>
+  </div>
+</form>
+{% endblock %}

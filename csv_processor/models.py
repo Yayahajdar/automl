@@ -186,6 +186,18 @@ class FakeErrorLog(models.Model):
 
     def __str__(self):
         return f"Error: {self.message[:50]}"
+
+
+# New model: Feedback
+class Feedback(models.Model):
+    user = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL, related_name='feedbacks')
+    email = models.EmailField(blank=True, null=True)
+    message = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        who = self.user.username if self.user else (self.email or 'anonymous')
+        return f"Feedback #{self.pk} by {who}"
         
     
 

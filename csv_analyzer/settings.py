@@ -3,6 +3,8 @@ Django settings for csv_analyzer project.
 """
 
 from pathlib import Path
+import os
+from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -74,8 +76,13 @@ WSGI_APPLICATION = 'csv_analyzer.wsgi.application'
 # Database
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.getenv('POSTGRES_DB', 'csv_analyzer_db'),
+        'USER': os.getenv('POSTGRES_USER', 'csv_user'),
+        'PASSWORD': os.getenv('POSTGRES_PASSWORD', 'csv_password'),
+        'HOST': os.getenv('POSTGRES_HOST', 'localhost'),
+        'PORT': os.getenv('POSTGRES_PORT', '5432'),
+        'CONN_MAX_AGE': 60,
     }
 }
 
@@ -94,7 +101,11 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=15),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+    "AUTH_HEADER_TYPES": ("Bearer",),
+}
 
 # Internationalization
 LANGUAGE_CODE = 'fr'
@@ -132,6 +143,15 @@ MLFLOW_EXPERIMENT_NAMES = {
 # Django REST Framework + drf-spectacular
 REST_FRAMEWORK = {
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+        "rest_framework.authentication.SessionAuthentication",
+    ],
+    #  !!! add this block !!!
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.IsAuthenticated",   
+        "rest_framework.permissions.IsAdminUser",   
+    ],
 }
 
 SPECTACULAR_SETTINGS = {
@@ -147,3 +167,5 @@ SPECTACULAR_SETTINGS = {
         "displayOperationId": False,
     },
 }
+
+

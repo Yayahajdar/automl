@@ -26,6 +26,7 @@ class DeleteCSVSerializer(serializers.Serializer):
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from django.contrib.auth.password_validation import validate_password
+from .models import Feedback
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -50,6 +51,12 @@ class UserCreateSerializer(serializers.ModelSerializer):
         validated_data.pop('password2')
         user = User.objects.create_user(**validated_data)
         return user
+
+class FeedbackSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Feedback
+        fields = ['id', 'email', 'message', 'created_at']
+        read_only_fields = ['id', 'created_at']
 
 
 

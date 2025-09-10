@@ -5,10 +5,11 @@ from django.http import HttpResponse, JsonResponse
 from django.conf import settings
 from django.utils import timezone
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
-from django.views.decorators.http import require_POST
+from django.views.decorators.http import require_POST, require_http_methods
 import pandas as pd
 import numpy as np
 import json
+from .metrics import django_errors_total
 import os
 import time
 import plotly.graph_objects as go
@@ -16,9 +17,6 @@ from datetime import datetime
 import matplotlib
 matplotlib.use('Agg')
 from .monitoring import SystemMonitor, UsageStatistics
-from django.views.decorators.http import require_http_methods
-from django.http import JsonResponse
-from django.contrib.auth.decorators import login_required
 from .models import CSVFile
 from .forms import CSVUploadForm, DataCleaningForm, ColumnOperationForm
 from sklearn.model_selection import train_test_split, cross_val_score
@@ -27,7 +25,7 @@ from sklearn.tree import DecisionTreeClassifier, DecisionTreeRegressor
 from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
 from sklearn.metrics import accuracy_score, r2_score, mean_squared_error, classification_report
 from sklearn.preprocessing import LabelEncoder
-from .mlflow_utils import get_mlflow_ui_url
+from .mlflow_utils import get_mlflow_ui_url, log_model_training
 import seaborn as sns
 import matplotlib.pyplot as plt
 import io
@@ -37,17 +35,23 @@ import logging
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.permissions import IsAuthenticated
-from .serializers import CSVUploadSerializer, TrainMLRequestSerializer, TestModelRequestSerializer
+from rest_framework.permissions import IsAuthenticated, AllowAny
+from .serializers import (
+    CSVUploadSerializer,
+    TrainMLRequestSerializer,
+    TestModelRequestSerializer,
+    DeleteCSVSerializer,
+    UserSerializer,
+    UserCreateSerializer,
+)
 from drf_spectacular.utils import extend_schema, OpenApiParameter, OpenApiExample
 from drf_spectacular.types import OpenApiTypes
-from .serializers import TrainMLRequestSerializer, TestModelRequestSerializer, DeleteCSVSerializer
-from rest_framework.permissions import IsAuthenticated, AllowAny
-from .serializers import UserSerializer, UserCreateSerializer
 from prometheus_client import generate_latest
 from .metrics import APP_ERRORS_TOTAL
 from users.forms import UserRegisterForm
 
+
+logger = logging.getLogger(__name__)
 
 @login_required
 def train_model(request, pk):
@@ -1018,19 +1022,29 @@ def train_ml_model(request, pk):
                     X[col] = le.fit_transform(X[col])
                     # Convertir LabelEncoder en dictionnaire sérialisable
                     label_encoders[col] = {'classes_': le.classes_.tolist()}
-
+           
                 # Encode target if necessary
                 original_classes = None
-                if not pd.api.types.is_numeric_dtype(y):
-                    if model_type == 'regression':
-                        messages.error(request, 'La régression nécessite une variable cible numérique.')
-                        return redirect('view_csv', pk=pk)
-                    # Store original class labels before encoding
-                    original_classes = list(y.unique())
-                    le = LabelEncoder()
-                    y = le.fit_transform(y)
+                error_msg = '' 
+                if pd.api.types.is_numeric_dtype(y):
+                        if model_type == 'classification':
+                            messages.error(request, 'La classification nécessite une variable cible catégorielle (non numérique).')
+                            messages.error(request, error_msg)
+                            django_errors_total.inc()
+                            return redirect('view_csv', pk=pk)
+                else:
+                        if model_type == 'regression':
+                            messages.error(request, 'La régression nécessite une variable cible numérique.')
+                            messages.error(request, error_msg)
+                            django_errors_total.inc()
+                            return redirect('view_csv', pk=pk)
+                        # Store original class labels before encoding
+                        original_classes = list(y.unique()) 
+                        le = LabelEncoder()
+                        y = le.fit_transform(y)
             except Exception as e:
                 messages.error(request, f'Erreur lors du prétraitement des données : {str(e)}')
+                django_errors_total.inc()
                 return redirect('view_csv', pk=pk)
 
             # Split the data
@@ -1652,6 +1666,7 @@ class TrainMLAPIView(APIView):
             delimiter = detect_delimiter(csv_file.file.path)
             df = pd.read_csv(csv_file.file.path, delimiter=delimiter)
         except Exception as e:
+            APP_ERRORS_TOTAL.labels(type='csv_read_error').inc()
             return Response({"error": f"Erreur lecture CSV: {str(e)}"}, status=status.HTTP_400_BAD_REQUEST)
 
         data = request.data
@@ -1662,10 +1677,35 @@ class TrainMLAPIView(APIView):
         algorithm_type = data.get('algorithm_type', 'random_forest')
 
         if not all([features, target, model_type, model_name]):
+            APP_ERRORS_TOTAL.labels(type='missing_parameters').inc()
             return Response({"error": "features, target, model_type, model_name are required"}, status=status.HTTP_400_BAD_REQUEST)
         if target in features:
+            APP_ERRORS_TOTAL.labels(type='target_in_features').inc()
             return Response({"error": "target cannot be part of features"}, status=status.HTTP_400_BAD_REQUEST)
 
+        # NEW: Check for non-numeric features in regression models
+        if model_type == 'regression':
+            non_numeric_features = []
+            for feature in features:
+                if feature in df.columns and not pd.api.types.is_numeric_dtype(df[feature]):
+                    non_numeric_features.append(feature)
+            
+            if non_numeric_features:
+                # Increment Prometheus metric for alerting
+                APP_ERRORS_TOTAL.labels(type='non_numeric_features_regression').inc()
+                
+                # Log the error for monitoring
+                import logging
+                logger = logging.getLogger(__name__)
+                logger.error(f"Non-numeric features selected for regression model: {non_numeric_features}, CSV ID: {pk}, User: {request.user.id}")
+                
+                return Response({
+                    "error": f"Regression models require numeric features. Non-numeric features detected: {', '.join(non_numeric_features)}",
+                    "error_code": "NON_NUMERIC_FEATURES_REGRESSION",
+                    "non_numeric_features": non_numeric_features,
+                    "model_type": model_type,
+                    "details": "Please select only numeric columns for regression analysis or use classification instead."
+                }, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
         if df[features + [target]].isnull().any().any():
             df = df.fillna(df.mean(numeric_only=True))
             for col in df.select_dtypes(include=['object']).columns:
@@ -1677,6 +1717,7 @@ class TrainMLAPIView(APIView):
             X = df[features].copy()
             y = df[target].copy()
         except KeyError as e:
+            APP_ERRORS_TOTAL.labels(type='missing_column').inc()
             return Response({"error": f"Missing column: {str(e)}"}, status=status.HTTP_400_BAD_REQUEST)
 
         categorical_cols = X.select_dtypes(include=['object']).columns
@@ -1690,11 +1731,13 @@ class TrainMLAPIView(APIView):
             original_classes = None
             if not pd.api.types.is_numeric_dtype(y):
                 if model_type == 'regression':
+                    APP_ERRORS_TOTAL.labels(type='non_numeric_target_regression').inc()
                     return Response({"error": "Regression requires numeric target"}, status=status.HTTP_400_BAD_REQUEST)
                 original_classes = list(y.unique())
                 le_y = LabelEncoder()
                 y = le_y.fit_transform(y.astype(str))
         except Exception as e:
+            APP_ERRORS_TOTAL.labels(type='preprocessing_error').inc()
             return Response({"error": f"Preprocessing error: {str(e)}"}, status=status.HTTP_400_BAD_REQUEST)
 
         try:
@@ -1741,20 +1784,22 @@ class TrainMLAPIView(APIView):
 
             csv_file.save_ml_model(model_name, model, features, model_type, metrics=metrics_dict)
 
-            try:
-                y_pred = model.predict(X_test)
-                if model_type == 'classification':
-                    metrics_dict['accuracy'] = float(accuracy_score(y_test, y_pred))
-                    report = classification_report(y_test, y_pred, output_dict=True)
-                    for class_name, ms in report.items():
-                        if isinstance(ms, dict):
-                            for metric_name, value in ms.items():
-                                if isinstance(value, (int, float)):
-                                    metrics_dict[f'{class_name}_{metric_name}'] = float(value)
-                else:
-                    metrics_dict['r2_score'] = float(r2_score(y_test, y_pred))
-                    metrics_dict['mean_squared_error'] = float(mean_squared_error(y_test, y_pred))
+            # Evaluate on test set and record metrics
+            y_pred = model.predict(X_test)
+            if model_type == 'classification':
+                metrics_dict['accuracy'] = float(accuracy_score(y_test, y_pred))
+                report = classification_report(y_test, y_pred, output_dict=True)
+                for class_name, ms in report.items():
+                    if isinstance(ms, dict):
+                        for metric_name, value in ms.items():
+                            if isinstance(value, (int, float)):
+                                metrics_dict[f'{class_name}_{metric_name}'] = float(value)
+            else:
+                metrics_dict['r2_score'] = float(r2_score(y_test, y_pred))
+                metrics_dict['mean_squared_error'] = float(mean_squared_error(y_test, y_pred))
 
+            # Log to MLflow (do not fail API if this step fails)
+            try:
                 from .mlflow_utils import log_model_training
                 run_id = log_model_training(
                     model_name=model_name,
@@ -1767,8 +1812,7 @@ class TrainMLAPIView(APIView):
                 if run_id:
                     metrics_dict['mlflow_run_id'] = run_id
                     csv_file.save_ml_model(model_name, model, features, model_type, metrics=metrics_dict)
-            except Exception as e:
-                # لا نفشل الـ API إذا فشل تسجيل MLflow if it failed 
+            except Exception:
                 logging.getLogger(__name__).exception(
                     "MLflow logging failed during training (csv_id=%s, model=%s)", pk, model_name
                 )
@@ -1850,7 +1894,7 @@ class TestModelAPIView(APIView):
             missing_features = set(model_info['features']) - set(inputs.keys())
             if missing_features:
                 return Response({"error": f"Missing features: {', '.join(missing_features)}"}, 
-                                status=status.HTTP_400_BAD_REQUEST)
+                     status=status.HTTP_400_BAD_REQUEST)
             
             # Create input DataFrame with proper feature order
             X_test = pd.DataFrame([inputs])
@@ -1882,7 +1926,7 @@ def register(request):
         if form.is_valid():
             form.save()
             username = form.cleaned_data.get('username')
-            messages.success(request, f'Compte créé avec succès ! Vous pouvez maintenant vous connecter')
+            messages.success(request, f"Compte créé avec succès, {username} ! Vous pouvez maintenant vous connecter.")
             return redirect('login')
     else:
         form = UserRegisterForm()
@@ -1950,6 +1994,56 @@ class PrometheusMetricsAPIView(APIView):
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+
+from .models import CSVFile
+# ... existing code ...
+from .models import Feedback
+# ... existing code ...
+from .serializers import (
+    CSVUploadSerializer,
+    TrainMLRequestSerializer,
+    TestModelRequestSerializer,
+    DeleteCSVSerializer,
+    UserSerializer,
+    UserCreateSerializer,
+)
+# ... existing code ...
+from .serializers import FeedbackSerializer
+# ... existing code ...
+
+@extend_schema(
+    summary="Submit user feedback",
+    description="Creates a feedback entry. Authenticated user is linked automatically; email is optional.",
+)
+class FeedbackCreateAPIView(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        serializer = FeedbackSerializer(data=request.data)
+        if serializer.is_valid():
+            feedback = Feedback.objects.create(
+                user=request.user if request.user.is_authenticated else None,
+                email=serializer.validated_data.get('email'),
+                message=serializer.validated_data['message'],
+            )
+            return Response(FeedbackSerializer(feedback).data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+# ... existing code ...
+
+@login_required
+def feedback(request):
+    from .forms import FeedbackForm
+    if request.method == 'POST':
+        form = FeedbackForm(request.POST)
+        if form.is_valid():
+            fb = form.save(commit=False)
+            fb.user = request.user
+            fb.save()
+            messages.success(request, "Merci pour votre retour !")
+            return redirect('feedback')
+    else:
+        form = FeedbackForm(initial={'email': request.user.email if request.user.is_authenticated else ''})
+    return render(request, 'csv_processor/feedback.html', {'form': form})
             
 def simulate_error(request):
      

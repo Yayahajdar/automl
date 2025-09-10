@@ -23,11 +23,13 @@ from django.contrib.auth import views as auth_views
 
 # Swagger / OpenAPI
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
-
+from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenVerifyView
+from django.contrib.auth.decorators import login_required
 urlpatterns = [
     # Swagger schema & UI
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
-    path('api/docs/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
+    path('api/docs/', login_required(SpectacularSwaggerView.as_view(url_name='schema')), name='swagger-ui'),
     path('', include('django_prometheus.urls')),
     path('admin/', admin.site.urls),
     path('', include('csv_processor.urls')),
@@ -35,5 +37,9 @@ urlpatterns = [
     path('profile/', profile, name='profile'),
     path('login/', auth_views.LoginView.as_view(template_name='users/login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(template_name='users/logout.html'), name='logout'),
-
+        # JWT token endpoints
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
+    path('', include('csv_processor.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

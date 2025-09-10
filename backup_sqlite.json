@@ -1,0 +1,1104 @@
+[
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$870000$cFkSuys0gVgaPn2qel8Rzq$ZsX6/4IDhXri5l6DYyGcs7eY8uV1/AfD98E08Zeq0fc=",
+    "last_login": "2025-02-21T13:20:41.092Z",
+    "is_superuser": false,
+    "username": "1saeed",
+    "first_name": "",
+    "last_name": "",
+    "email": "saeed@gmail.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2024-11-30T00:09:17.947Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$870000$sqiW3bzOhpjFuuMMN4QNMO$/pwgP/4M+y18rYDhDCyDOvYPqagXmPXmUgCj3TR7oDQ=",
+    "last_login": "2024-11-30T01:59:01.339Z",
+    "is_superuser": false,
+    "username": "yahya",
+    "first_name": "",
+    "last_name": "",
+    "email": "koko@gmail.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2024-11-30T01:58:50.598Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$600000$LlgvyI7yvuUWhTHVgPWbP0$WJptmDkR7tr4upZsvMDMItEabselWa6EWg1aaqTp0oo=",
+    "last_login": "2025-02-13T15:15:23.620Z",
+    "is_superuser": false,
+    "username": "yahyato",
+    "first_name": "",
+    "last_name": "",
+    "email": "koko@gmail.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-02-13T15:15:11.630Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$870000$vi4zOxrFNbu6MWyvC41CpL$IGnHhw8RNU5qwHkV6kdGk/ieFS9SBor8aFvuzYT9GQo=",
+    "last_login": null,
+    "is_superuser": true,
+    "username": "n",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2025-02-14T10:15:55.644Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$870000$7lNWmRIGPvlVIy6uZYL9gu$7f13p6y6WyHMCC70hjO5Y9S140ndPtv1ztQARJ9v4mk=",
+    "last_login": null,
+    "is_superuser": true,
+    "username": "root",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2025-02-14T10:17:06.973Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$870000$Puue7D5JUFwagGNgCwQtjk$cOerjO2hpUyGkHbXFmrUyp+8F8lIjK8DG85qUghgo1M=",
+    "last_login": null,
+    "is_superuser": true,
+    "username": "a",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2025-02-14T10:20:00.927Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$870000$GcWBZH4OZIWD2A9xDksQK2$qQLh5LnC70vK9k8MAbelWa+k0e0sy5nhSPxiFw/lD8k=",
+    "last_login": "2025-02-14T15:20:25.429Z",
+    "is_superuser": false,
+    "username": "patrick",
+    "first_name": "",
+    "last_name": "",
+    "email": "patrick@greta.fr",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-02-14T15:20:16.845Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$600000$usDjxY65X2C1Lrke2Mv3hP$SC4/+kBNPsQPUh5Z/Blx0Vgx51Q+YzpNFkFPjC7a1OM=",
+    "last_login": "2025-05-06T08:08:18.275Z",
+    "is_superuser": false,
+    "username": "yah",
+    "first_name": "",
+    "last_name": "",
+    "email": "yah@yah.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-05-06T08:08:11.461Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$600000$1a68k4jSh91D4BaUxvU2m8$XUIkODK/Jae5f5u5zTS5VRoJKfOSMTcVzpADiCmcAIs=",
+    "last_login": "2025-05-10T20:04:26.089Z",
+    "is_superuser": false,
+    "username": "yoyo",
+    "first_name": "",
+    "last_name": "",
+    "email": "yoyo@yoyo.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-05-07T07:33:21.560Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$600000$KeabKdXj597jzsPUiKUFTW$yzH5tLh7QT2ycYGZllo8kH8hkV6JHT1snNv90tQFudM=",
+    "last_login": "2025-05-07T09:16:28.417Z",
+    "is_superuser": false,
+    "username": "xxx",
+    "first_name": "",
+    "last_name": "",
+    "email": "koko@gmail.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-05-07T09:16:19.743Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$600000$C6Zd8YPBvCS9t0BIoVT1Hf$CwEvbLOhWXRJtywuSJ5Ush1YXnd8K5+pIERXi9XZYok=",
+    "last_login": "2025-05-11T14:15:05.246Z",
+    "is_superuser": false,
+    "username": "yoyo1",
+    "first_name": "",
+    "last_name": "",
+    "email": "yoyo@yoyo.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-05-11T14:14:54.430Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$600000$yST0f8BHo3mAjAXHdVDdDf$CbpoQluZL27hog17eEjvDX6x3R/cwhe+UCz43BsmdAk=",
+    "last_login": "2025-08-20T13:55:34.598Z",
+    "is_superuser": false,
+    "username": "yayaya",
+    "first_name": "",
+    "last_name": "",
+    "email": "yaya@yaya.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-08-20T13:55:17.358Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$600000$dl4ia5KHf5bKJSwbakmXh6$b6PBukIfOD4hZXXH+afcQQMtt0USHgaH7UYokUY6K7g=",
+    "last_login": "2025-08-29T18:23:51.246Z",
+    "is_superuser": false,
+    "username": "yoyoyo",
+    "first_name": "",
+    "last_name": "",
+    "email": "yoyo@yoy.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-08-29T18:23:44.517Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$600000$FVZq9MENBw81AygozsdMzG$os6bAZMSSXOzqWzltuq0+OMCfjylwmb5aE5AYJZrNPY=",
+    "last_login": "2025-08-31T15:27:20.079Z",
+    "is_superuser": false,
+    "username": "john",
+    "first_name": "",
+    "last_name": "",
+    "email": "john@john.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-08-31T15:27:11.250Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$600000$hytzpX9iqeopZR6ZuKUOPF$bWpF6TAVdMyD4VBlWzYgTk61/D4P3VSru6Ep+1+BbKQ=",
+    "last_login": null,
+    "is_superuser": true,
+    "username": "ayhd",
+    "first_name": "",
+    "last_name": "",
+    "email": "ayhd@gmail.com",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2025-09-03T00:01:10.386Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "26y6ds6rlrkev6l1vkc08hb4ebosnr1x",
+  "fields": {
+    "session_data": ".eJxVjEEOwiAQRe_C2hCZ2mFw6b5nIANMpWogKe3KeHfbpAvd_vfefyvP65L92mT2U1JXZdTpdwscn1J2kB5c7lXHWpZ5CnpX9EGbHmqS1-1w_w4yt7zVHJBiYul6HAOC9GgAJACLYwF0EB1Fa8m6RJTO1OF4YYe8qQSGo_p8Afn4OBw:1tkSwV:7PqnWaZ89H4KkpqGaP7WWwo1mf95HN3iY9dAxjQWqWU",
+    "expire_date": "2025-03-04T19:07:39.970Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "3dvmpmjy1vvkktm8qmwpgdjxhn8xl2qy",
+  "fields": {
+    "session_data": ".eJxVjMsOwiAQRf-FtSEUkIdL934DmYEZqRqalHZl_HdD0oVu7znnvkWCfatp77SmuYiLmKw4_Y4I-UltkPKAdl9kXtq2ziiHIg_a5W0p9Loe7t9BhV5HTcwuREajDNjIxZEljojo4nQOqnDUqHUOiiaPOnsEbWIBCiYY9iA-XzY6OQk:1usjxg:Dh299XBmtGDfWUfBSq-cM19ngTt8rFMFyRI3vWC_Afg",
+    "expire_date": "2025-09-14T15:27:20.080Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "7hvzld1thik9blkbmtezdap4nx2liccl",
+  "fields": {
+    "session_data": ".eJxVjEEOwiAQRe_C2hCglKEu3XsGMjNMpWpoUtqV8e7apAvd_vfef6mE21rS1mRJU1ZnZTt1-h0J-SF1J_mO9TZrnuu6TKR3RR-06euc5Xk53L-Dgq18axMDEETXO-tHhmBxYBo8kmQPMYRoyFMUMGwkmzF2AR1YYbKBHPeg3h_z2TfY:1us3lP:PgFrFUPx3FVmHhGCCeN-rx38C1iVHISZK_lcC5iIugA",
+    "expire_date": "2025-09-12T18:23:51.247Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "8rp20lpp42azr8m8smgivzaf9ko0cqk2",
+  "fields": {
+    "session_data": ".eJytk8tOwzAQRX8lyhpFedR5sAMEOySkLimKxvYkNTg22HE3iH8nCQW1pAKXsszM5B77ju9rWIPr17WzaGrBw_OwCs92axTYE6qxwR9BtTpiWvVG0GgcibZdG91qjvJyO7snsAa7Hv5GJCShGWcZkqLiFUDTACyQ5yXJaEIJZ0iyKkkI5DFNCxanizKDrEFc8Jg2gyiI2rq2RdsLrWydFCQ8v38NmZauUwPiosVxio3t4bMRUtYdghqKBsFOxaQogg1IdMYGHagXB6pHG3BQNpAQDFpaKQyU61YujrEy4sVhsBq1V2EUvp3t8K6ACjUnDk7sEvPSi8ig_yC22giUcoROgBn2uqNgnpD_Sk7_yv0kzNDfHDbY6Q3W2vVSoLF7PidfcKBozGH4YV-Xgi6fPTmL3I8zac5Id2DY2pOUJpkfahKdoW7A-HvnealRcwI9HAhH_mM4_sHSU1dXnbS6I_ys4n-ws9i3c-nMRmz2Q_jDEcrS865b2flLZRKs9aQVnuH7ED0h5eTvL-WI_eXpsft7ewc5UVaN:1uCZJR:tG_nFFCkz1EV1OUCUyTuS5mn_B7JG-4_VLwWpnoXOfU",
+    "expire_date": "2025-05-21T07:35:29.936Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "d0gq2gkiwh0we1ofqmtucsbnv8fazors",
+  "fields": {
+    "session_data": ".eJxVjEEOwiAQRe_C2hBgYGhduvcMZGBAqoYmpV0Z765NutDtf-_9lwi0rTVsPS9hYnEWIE6_W6T0yG0HfKd2m2Wa27pMUe6KPGiX15nz83K4fweVev3W48geSYGDSGyZrTcmZe1SUdGDdzqjwzIoQGZ01mgYWJWE2cZIhZ14fwDcrjgC:1tiavz:NgeMBeqMUs0JKAehTeDdtf3WK7OULPrVYfs_nVIIC3M",
+    "expire_date": "2025-02-27T15:15:23.621Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "i5hd9k6yiziso9swzkgntmlckx79oxjc",
+  "fields": {
+    "session_data": ".eJzlnE1v20YQhv-KwHNqcL-XvrVFeytQIMe6MFbUWmYjUw4lJSiC_PeSthNYYwedPMfWF0uUXs7O7Mc7X9Sn5rqcjrfXp0OdrodNc9mY5s3za-vSv6vj8sHmrzJu9xf9fjxOw_pi-crF06eHi9_2m7r76em7Zze4LYfbGV3WMfebUl2IN-toa4jG2rq2pXal2tjZvst9Sjl1m5w3bXbxxpculvmr2ZrSzze9W2Rc39VZfH-4NtE0l5-a0venqfR_N5ftRfummer9fjrO8lZnf_dT7YfDsB-XN_PrstutVjfmh0O_n-p86XC6X3BX49X4DGWe_s93br_9anl5BrMM5hks6mDmHGaUukmYQ4M0GcEsmwDLJsAqJ0CYxLIJsIkNskMwx6bbKS0pYcySLjDdlBMgYWxNOjYBvtXBhEk8229eaUkhLbBBBnZyBThINm-RrcnI1mRkh0JUHgoSpjSJgCV2KCTlmpQwtkoSM0mCJlHubgHLjKgys2RmGyczS3aMTTt2KndwkGi6TYvmzbRIN2PQ8WqYq2YMmjdjkF9iDKJFo_XwhG5an0tKY7ppvSAJQ0vZaP0SCWMTwPwS45FjaDzibhOQF2QCm27mYJjIBsk8BaOlfCkN8ZtJiHGMlk3FILX8JmHsUMjMkpnp1iHKN4xNDWNT06FVYlu0SmzLpDE2tYxNrZZNJQwdCtagYMUadJZYLXcLmEVEZVlOwbLkgNUmB6Q0tLutlk0lDDkY1qOIyrLkgGXcbbU5BQlj25SlIixLRViWHLAsyreM8q02XJcwplti-00brgtp2rhbSMvsCMpscbG423ZMN224LmHIL7Ed2zjMnbHMnXHPb_c9MDQBrmWDZO6M07ozrYChVeK07oyEoUDMWWYSVjVy2qqRlIZcNcecJ-cQmzqHOMCxOo5jlRWn9bmENG2JRMLQyeWYX-JYBsMxd8ZpMxhykMjpdZFt08gsqU2zSBhbytrsjDAJ84Icy2A4lsFw2gyGGGTHjqCOLWWtgyFhjIRZ4sOzDIbXUn4rYMiSXkvCcpDoLPEWbVOvzdALmLa9QZiE8ZtnqQjP-hQ8y9B7llPwjE29Z_OmzSlIGNtvjE09KyN4RsJeS4tCWmTTzdjUs6KF11YfxCATOye17Q0SxrYpazjwmenGMhieVVa81i-R0tjGYe6M1zoYYpAsg-FZBsNr_ZJzWGjR4gosXA8GmSRoqw9CN5YcCKxoEViUH1jDQWBRftBG-RLGppv5JYGF64G5M4E1HATWPxk8OvCC1gsS0rQ5BQljumlrHRIGdUOUH1gzRdBWViQMMU5gjZCBNUIG1poYWGti0DoYEsaogzkYgaUiAqusBFZZCczBCNpUxLlusVWaxAgYmu7IOj6itn9SwFitI7JaR2StiZE5GFGbLxG6sYdPotYvEdJY4iOyekBkPRhR2xUhTMK4O7KuiMgoPwa2TbWegjCJNl8iYcifjCxfEln1IWrrAWKQrH8yajMYEsaOINbxEbV-iZTGpps5GJE9MhFZKiKyEknUNlMIaaxokRh3pxYNMmlrHQLG2hsSy2AkViJJjPIT4-7ESDixxwoSi7sTC6AT44DEosXEcuaJ5cwTqwknFpsm9mxfYrFpYhyQWPI7sZA2sSx2YkFmYkFmYkFmYlnsxMrkiWWxEyOqrGUcCUODzKwon1mQmVnOPLPkd2adcZnxW2a1_Mx-cyCzonxmjf6ZPW2XPdONVdczS0dn9jh_ZtFiZtFiZq33mTkYmVF-ZunozOrdmT3ynhkJZ9bVnhmbZtYMn9nTdlnL3Q_SHoFffk9o9e2_r0CTuid5d6Wf9qvyYauR9wT7WIft7bFuvhPWfH7TlOH6cNpu6-E47Menn0L641PT73enu7G5bH7c1mb-Vr98PL-9GXbL7yaVsVl-IKkcHi6aeZl9KLt6mg7z8Mf3pzIe62G1KeNhtSur-V77cayr8XR3dWrb2k3D-1NdXS33vmou5lE8k_dzWQ_jS4n7TX0ucYnCFRL7cnyUuN1PQ93tFqEPAl6I_eVuXaZ3dfOvki2V-0XCC9HCwlO923-o1_vTcTfU6XBmZ_NVeFnXaXpd-Ot2fTus394r5cwkoZLzcM8Xkn4vU3-rlLQ81agS9XDTF6J-LZPedkqllns-CPrzlc3hHjaHlLc53e-Gec7rucTVbtiOi4zl4_enxxWxvH98daz98cs1odeh3pfdxcdhc9Qa0uuUe3bjb-mY2v-BjnbW8bXr_7n5_fwP1WGy9g:1tpqZT:vttMTrfRT60Y04KDIL_BzREi16KqqGBHlEYkNE-rOeU",
+    "expire_date": "2025-03-19T15:22:07.975Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "jduglcmwm55xynbywsvjsss5o0sbf7q2",
+  "fields": {
+    "session_data": ".eJxVjDsOwjAQBe_iGln-rH-U9JzB2rUdHEC2FCcV4u4QKQW0b2bei0Xc1hq3UZY4Z3Zmkp1-N8L0KG0H-Y7t1nnqbV1m4rvCDzr4tefyvBzu30HFUb91ck7ZpKSzHmiyoDQZROELZalDQLBoUBgy4Bw6D0kHIAJtAgo7GcXeH8lrNxI:1ti9ET:PBD12WqwbXkqcu8oYlVcpUmk1k_NpGXoKYFX88oGZZ4",
+    "expire_date": "2025-02-26T09:40:37.006Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "jgbx1lh76fdjn6rf9b3tq5eor7691jic",
+  "fields": {
+    "session_data": ".eJxVjDsOwjAQBe_iGlley19Kes5grb0LDiBbipMKcXcSKQW0M_PeWyRcl5rWwXOaSJwFgDj9wozlyW039MB277L0tsxTlnsiDzvktRO_Lkf7d1Bx1G3tyLiYDVtfQLngNSAAejBRhw0ygy-3SBEjF-VDNJxR20IIbJVnJz5f70435Q:1uE7SL:Lxa_K6NfSKyqnnhainufJyGWz6EAP78AJnBJXvn4lJ4",
+    "expire_date": "2025-05-25T14:15:05.247Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "k1kuyephxaikff20466owa78jisf9x8e",
+  "fields": {
+    "session_data": ".eJztWF1vozgU_SsWT7NShoIJIXS7ldpoq85HP6RW2pdI0QUu4K0xWWPSQaP-97mQdNrKeWC7o32KkCz7-HLte3zxsfnurKA15aptUK9E5hw73Jm8xhJIH1D1HdnfoIraTWtltEjc3sTd9TbuVZ2hPN_ZvnFQQlPS214e0eNNIUTP47EfpRk9SZyGXpblszyPwzwOotjPY84hitJpMoujwA848HniATmt16jBiFqtNDatNI1z_N1JMK81rtYaNwIfaaATA4lEltQ6Q_3H0vGXDkslNA3VMzCQa6iQbY2G8mND8awx27XKeoN66ZwuFWMnpkTIhmrf0KwxnURyZPCb-QhSFOqYaVGU5vfdG1vD8vSWBkRVoP6UnRxR-3XfXas3YoN2x-0wTwu-pgnbTvCbhZ0Ve-xEcre2RwKdlhZ6L2j9jAVfgLb9LiARykL_rBLQD29Co6reknn0wuaJSeqseyH2lZPs1CfL7A3iWUhgIecaWpVN2JV22c0jKnYJWovGsqtAogVy7tpjjJnH2VHIuO9Htm3k8tCzX7iGawu7e4X8pMvmhY-YoY0s2kqooumJaVz2uS4VI6oyiR37cCHp21EpEiKKomH3JXSof7N85LiXtWD-TtZuF8yPwji2SfNdPg_sxV3MQxsbx5rtzJ6hbXOJ4uFBKFTEm2iIuK8gFIwlhs_2EDMGubu_uT664S4LfM_nc3vFIzemtPqVWTV9V1ZdtEajlPicVpD-02LDLhFMyT58FbJjV9CxW0Q5Pp3Cd6aT7wdzz17DMHB9b88nuPC5bTySLTsNx-xNZ8SU2m5NfwkpBVTElNLduM1pLy9jkCAKpnuShb7a_7QzUWW3e1Ot18xTEmfIDYn9QYYPMnyQ4YMMH2T432bVQYYPMvwLZHh3HW4MbK_HpjYgV7p-pNY89ieOaqVcpXWrjHPsTZxWCcqYZyCaDNq8Mt0aScOFMrMpOa2wqnVH13koejhyvZh9OXeenlX__xotrWVbKcIG3ewPHWn_O4CAZevNeNaXgdeXU58NUDQ0pkPJhxKGMrS7_RckGOrBYMpjGictgQ4RQ4iaZkeHhl2QFFNVZyIXhGxAtrjDtiE0QJb9vw_X84YQnp5-ANTL7V4:1tHCoG:_F5oBveZk9R8p4mulC50CbxRIjwBC70K8sa_GzZ0Eik",
+    "expire_date": "2024-12-14T02:02:12.160Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "l8grm56akkwm7kqyeq2d4erjrdtf6xmb",
+  "fields": {
+    "session_data": ".eJxVjEEOwiAQRe_C2pAypQ7t0r0nMIYMMLSogaS0K-PdbZMudPvf--8tLK3LZNfKs01BDEI14vQ7OvJPzjsJD8pjkb7kZU5O7oo8aJXXEvh1Ody_wER12t6AXYc6mr4PKnrHYKgxbIzWdEZqFWMH1DWMzmsC9B58CCECQjQtxLhFKdm6jiPXJZVcrcJeDLf75wuyAEC4:1uCaxU:x9TkI_0Bq88nZ2zXNPrECk_Mm-_vvL3g3N_yqAF_tCM",
+    "expire_date": "2025-05-21T09:20:56.097Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "m9wz26i3ojcdyb0t2afuen4ah204r9l6",
+  "fields": {
+    "session_data": ".eJzdks1u2zAMx19FMLBbZ0hx3MY97r4nmAeDlmhHmyx5-kgRBH33UYmD2cMKrDtOF5Mif_zLJC9FBykeuxTQd1oVz0VTPKzvepDf0eaA-gZ2dKV0NnrdlzmlXKKh_OwUmk9L7qbAEcKRaMS6Fn2lZIX1U6MagGEA2KN6PNRVL_paSayrRogaHnm_e5J8tz9UUA2Ie8X7gYpOWaOLGGLnMSQTQycOvHi-FCBl8iDPpCM4Lzn_QOnSQAh60BKidpaQ2flIGWxzZo9SB0rIDtlgDGOD-Bik80hXIc2Za21rVxRfvoK03rYYq_kGE_-G7d6B3cB7Q9jbZwWKRW8C6R2D0_h3elfsBfV4jKjeiRWvDwXoLqRxpHlS-5dZfsnDzD4NyuPkTtipNJs8RAw0VI8QrkHBjB4tBnYN_0ht4hyb7N-siDLe70pSuxTSmTRlNOAMpnzRKh6p4u9yLkWj0W_E9uwEBpMPDHr0HmzMQmADM8CorrMWWbsu3BYk-nWzs4Pz031hB4SYaInphxfKoB2v79m-bsa4Dt7cW_BX9fOM9MgTeI3x_MfO1v9bZ19_AqkMZfo:1uEDjF:wTz6L_44Nu7FyNRyw7nMPUH04Ztuo0SvtsL65gE9vJM",
+    "expire_date": "2025-05-25T20:56:57.002Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "nhd4dhjh9syhmvkn3z081y9h6285y7hj",
+  "fields": {
+    "session_data": ".eJxVjDsOwjAQBe_iGln-rT-U9JzBWtsbHEC2FCcV4u4QKQW0b2bei0Xc1hq3QUucCzszyU6_W8L8oLaDcsd26zz3ti5z4rvCDzr4tRd6Xg7376DiqN_aO2WzpZAJvQOlChI4Z9MkQZA2wmgFVAxkEXLyGCTBpIVECEQSHbH3B9q-N9g:1tN8rL:em-ISSMbMKz6AkgaUeuhiVIIrcp9ZH5ozfh_F7inWMw",
+    "expire_date": "2024-12-30T11:01:55.764Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "pbugmo02dj7k3d8p7kohqawijl3wtypr",
+  "fields": {
+    "session_data": ".eJxVjEEOwiAQRe_C2hCYAkWX7nsGMsyAVA0kpV0Z765NutDtf-_9lwi4rSVsPS1hZnERWpx-t4j0SHUHfMd6a5JaXZc5yl2RB-1yapye18P9OyjYy7c2ybJ2yjl_dkx2JOSoKeXMGQDYghksW-etAm3UaDIyaNJ-MAzkOIn3B-MGN8k:1tV6rI:h0LlcRpBrp73TCwa__AlQyXvXkZ3IY6xpZKoVyABB5g",
+    "expire_date": "2025-01-21T10:30:48.896Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "qw5x4vhucglsn3y6aqb7jpe3rgszufbe",
+  "fields": {
+    "session_data": ".eJxVjDsOwjAQBe_iGln-rT-U9JzBWtsbHEC2FCcV4u4QKQW0b2bei0Xc1hq3QUucCzszyU6_W8L8oLaDcsd26zz3ti5z4rvCDzr4tRd6Xg7376DiqN_aO2WzpZAJvQOlChI4Z9MkQZA2wmgFVAxkEXLyGCTBpIVECEQSHbH3B9q-N9g:1tKYkx:5aHB-64WCeIm3yAgvQAjsxllD2sm6H-EIiR7GK6U_NA",
+    "expire_date": "2024-12-23T08:04:39.863Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "tihffqlsoucdsk0umgcwx142ct3zpqzz",
+  "fields": {
+    "session_data": ".eJxdjktuwyAQhq-CWEfIxgnBWXbfE9SVNYaJTUsg5ZEurNy9kKZS0t3M_I9vVjpCTsuYI4bRaHqgLd083iZQn-iqoD_AzZ4p71IwE6sWdlcje_Ua7cvd-1SwQFxKGiYhlQbsduI4CY470XKOEwfsAbnoueql2u_lvtdS6kZ24riFXkCxSt6CKqVgxpjnGWMy3sWxFR09vK0UVN0LIuDJX3DU-WyNgoSxZAJCvIktsWZ2GMlN_spDbhrs6_47JVTp78bodbNS5W0-1WjEM1j2bXRa6hf_cD4nazA8wbbkAhZziAQmDAFcqiBwkVggpdc7h2R4LB5ogb5ffwBorofC:1tivrz:aFjXsGQrYutk1xbVgcu0DQ9aMpAL99omAa9nGSVm-Io",
+    "expire_date": "2025-02-28T13:36:39.199Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "tp3p4jcst97sgmqc1son13usk1gw9pwp",
+  "fields": {
+    "session_data": ".eJxVjEEOwiAQRe_C2hCYAkWX7nsGMsyAVA0kpV0Z765NutDtf-_9lwi4rSVsPS1hZnERWpx-t4j0SHUHfMd6a5JaXZc5yl2RB-1yapye18P9OyjYy7c2ybJ2yjl_dkx2JOSoKeXMGQDYghksW-etAm3UaDIyaNJ-MAzkOIn3B-MGN8k:1tVAs6:sENRjHlgCyxyqtvwlIvU_6vvA3jcu0vOPWZw1amhfZg",
+    "expire_date": "2025-01-21T14:47:54.127Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "w2kpvyh9zhuqe80e5e54v3d2cw6rsgrz",
+  "fields": {
+    "session_data": ".eJyNUMlOwzAQ_RUr5yqKSaiTHrlw4gYngqKJPU0Njt16KUJV_x2nCSWFIiFZsv1m5i1zSBoIftMEh7aRIlklLFnMsRb4G-qhIF5BdyblRnsr23RoSaeqSx-MQHU39V4QbMBt4vQtbdc5BY4CGfK8bBFYW1KWgWDx5JRScSOwygWveATLMkOe5cBKVhVlnkdSkI0LXYfOS6NdQ5dFsno-JNyo0Oso8fixRXJfhyzDSo-XlbuAwygfZmLPWirV9Ag6ghbBncAlZcWS7EFhsI70oHcBtEdHBGhHFJAoYbRGokM_4yX1n5J1kibHxczbk5Z-rP92E1c3d8P-44TDRNcZK1Gpwcy3xkn-5crG2GljZ32LvdljI8JWyciIbu6DEiU7PWgP5V0YqYf_-PLI_Rf2I63DLaj0XQq_mced5EzwSqK9ECvOoaFFa6-HrufEY8bjJ6Xx79I:1tixYj:IEiYd7T6eXhHfl98ja_dzIkeVqjktLwu3O7p38Iqrc0",
+    "expire_date": "2025-02-28T15:24:53.172Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "wf3h34vnvok9i3d1aip519tdiae67m1i",
+  "fields": {
+    "session_data": ".eJxVjDsOwjAQBe_iGln-rT-U9JzBWtsbHEC2FCcV4u4QKQW0b2bei0Xc1hq3QUucCzszyU6_W8L8oLaDcsd26zz3ti5z4rvCDzr4tRd6Xg7376DiqN_aO2WzpZAJvQOlChI4Z9MkQZA2wmgFVAxkEXLyGCTBpIVECEQSHbH3B9q-N9g:1tNT1c:DaEN0z3VcTNHgDzQQLIcJD7yFjn4xO_P9xCuUqMiE-c",
+    "expire_date": "2024-12-31T08:33:52.887Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "x6ue2g3ohfey8oixu6njifsjrtu33x63",
+  "fields": {
+    "session_data": ".eJxVjDsOwjAQBe_iGln-rH-U9JzB2rUdHEC2FCcV4u4QKQW0b2bei0Xc1hq3UZY4Z3Zmkp1-N8L0KG0H-Y7t1nnqbV1m4rvCDzr4tefyvBzu30HFUb91ck7ZpKSzHmiyoDQZROELZalDQLBoUBgy4Bw6D0kHIAJtAgo7GcXeH8lrNxI:1tVBi6:FQ2kIyfCeONpqo0FPXLQaf_Z1kZgQTA5QvQvLJ7KLto",
+    "expire_date": "2025-01-21T15:41:38.963Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "zwjmcvafhq0lnwwn0y7v7qwx7ywpabug",
+  "fields": {
+    "session_data": ".eJxVjDsOwjAQBe_iGln-rH-U9JzB2rUdHEC2FCcV4u4QKQW0b2bei0Xc1hq3UZY4Z3Zmkp1-N8L0KG0H-Y7t1nnqbV1m4rvCDzr4tefyvBzu30HFUb91ck7ZpKSzHmiyoDQZROELZalDQLBoUBgy4Bw6D0kHIAJtAgo7GcXeH8lrNxI:1thP6l:fChOnUsi6zYYb6T644maVWXQFZKLAkUiGPDDfLHRya4",
+    "expire_date": "2025-02-24T08:25:35.870Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "zwphrqtpyq1j06dyxjwkhcy7w7wlezbo",
+  "fields": {
+    "session_data": ".eJxVjDsOwjAQBe_iGln-rT-U9JzBWtsbHEC2FCcV4u4QKQW0b2bei0Xc1hq3QUucCzszyU6_W8L8oLaDcsd26zz3ti5z4rvCDzr4tRd6Xg7376DiqN_aO2WzpZAJvQOlChI4Z9MkQZA2wmgFVAxkEXLyGCTBpIVECEQSHbH3B9q-N9g:1tKdGo:I34kPm33ThGrQOnnvPNjnIQfEobddYLXeOcjYSWGneg",
+    "expire_date": "2024-12-23T12:53:50.079Z"
+  }
+},
+{
+  "model": "csv_processor.csvfile",
+  "pk": 68,
+  "fields": {
+    "user": [
+      "yahya"
+    ],
+    "title": "c",
+    "file": "csv_files/export_data_2024-11-24_21h15.csv",
+    "uploaded_at": "2024-11-30T13:53:37.114Z",
+    "last_viewed": "2024-12-01T18:09:51.542Z",
+    "view_count": 5,
+    "operations_log": [],
+    "rows_count": 56946,
+    "columns_count": 7,
+    "ml_models": {}
+  }
+},
+{
+  "model": "csv_processor.csvfile",
+  "pk": 69,
+  "fields": {
+    "user": [
+      "yahya"
+    ],
+    "title": "Export_Data_Val de Roland_2024-05-09_15h49.csv",
+    "file": "csv_files/upload_Export_Data_Val de Roland_2024-05-09_15h49csv_2024-11-30_14h23.csv",
+    "uploaded_at": "2024-11-30T14:23:03.753Z",
+    "last_viewed": "2024-11-30T14:23:03.820Z",
+    "view_count": 1,
+    "operations_log": [],
+    "rows_count": 0,
+    "columns_count": 0,
+    "ml_models": {}
+  }
+},
+{
+  "model": "csv_processor.csvfile",
+  "pk": 70,
+  "fields": {
+    "user": [
+      "yahya"
+    ],
+    "title": "export_data_2024-11-24_21h15.csv",
+    "file": "csv_files/upload_export_data_2024-11-24_21h15csv_2024-11-30_14h23.csv",
+    "uploaded_at": "2024-11-30T14:23:51.634Z",
+    "last_viewed": "2024-11-30T14:23:51.707Z",
+    "view_count": 1,
+    "operations_log": [],
+    "rows_count": 0,
+    "columns_count": 0,
+    "ml_models": {}
+  }
+},
+{
+  "model": "csv_processor.csvfile",
+  "pk": 145,
+  "fields": {
+    "user": [
+      "yahyato"
+    ],
+    "title": "user.csv",
+    "file": "csv_files/upload_usercsv_2025-02-13_15h17.csv",
+    "uploaded_at": "2025-02-13T15:17:13.884Z",
+    "last_viewed": "2025-02-13T15:17:31.997Z",
+    "view_count": 2,
+    "operations_log": [],
+    "rows_count": 0,
+    "columns_count": 0,
+    "ml_models": {}
+  }
+},
+{
+  "model": "csv_processor.csvfile",
+  "pk": 146,
+  "fields": {
+    "user": [
+      "yahyato"
+    ],
+    "title": "modified_user.csv",
+    "file": "csv_files/modified_user.csv",
+    "uploaded_at": "2025-02-13T15:17:42.534Z",
+    "last_viewed": "2025-02-13T15:17:42.856Z",
+    "view_count": 1,
+    "operations_log": [
+      {
+        "operation": "delete_row",
+        "details": "La ligne 2 a été supprimée",
+        "timestamp": "2025-02-13T15:17:42.535193+00:00"
+      }
+    ],
+    "rows_count": 96081,
+    "columns_count": 5,
+    "ml_models": {}
+  }
+},
+{
+  "model": "csv_processor.csvfile",
+  "pk": 164,
+  "fields": {
+    "user": [
+      "patrick"
+    ],
+    "title": "Export_Conso_Tours Habitat_2023_2024-05-09_16h13.csv",
+    "file": "csv_files/upload_Export_Conso_Tours Habitat_2023_2024-05-09_16h13csv_2025-02-14_15h20.csv",
+    "uploaded_at": "2025-02-14T15:20:45.259Z",
+    "last_viewed": "2025-02-14T15:40:08.502Z",
+    "view_count": 9,
+    "operations_log": [],
+    "rows_count": 0,
+    "columns_count": 0,
+    "ml_models": {}
+  }
+},
+{
+  "model": "csv_processor.csvfile",
+  "pk": 165,
+  "fields": {
+    "user": [
+      "patrick"
+    ],
+    "title": "ai_clean_Export_Conso_Tours Habitat_2023_2024-05-09_16h13_202502141521.csv",
+    "file": "csv_files/ai_clean_Export_Conso_Tours Habitat_2023_2024-05-09_16h13_202502141521.csv",
+    "uploaded_at": "2025-02-14T15:21:44.833Z",
+    "last_viewed": "2025-02-14T15:22:50.029Z",
+    "view_count": 4,
+    "operations_log": [
+      {
+        "operation": "ai_clean",
+        "details": "Remplissage des valeurs manquantes avec la moyenne (nan) dans Type Générique. | Remplissage des valeurs manquantes avec le mode (kWh) dans Unité.",
+        "timestamp": "2025-02-14T15:21:44.835606+00:00"
+      }
+    ],
+    "rows_count": 61746,
+    "columns_count": 7,
+    "ml_models": {}
+  }
+},
+{
+  "model": "csv_processor.csvfile",
+  "pk": 166,
+  "fields": {
+    "user": [
+      "patrick"
+    ],
+    "title": "modified_ai_clean_Export_Conso_Tours Habitat_2023_2024-05-09_16h13_202502141521.csv",
+    "file": "csv_files/modified_ai_clean_Export_Conso_Tours Habitat_2023_2024-05-09_16h13_202502141521.csv",
+    "uploaded_at": "2025-02-14T15:23:02.946Z",
+    "last_viewed": "2025-02-14T15:23:14.802Z",
+    "view_count": 2,
+    "operations_log": [
+      {
+        "operation": "delete_row",
+        "details": "La ligne 0 a été supprimée",
+        "timestamp": "2025-02-14T15:23:02.949242+00:00"
+      }
+    ],
+    "rows_count": 61745,
+    "columns_count": 7,
+    "ml_models": {}
+  }
+},
+{
+  "model": "csv_processor.csvfile",
+  "pk": 167,
+  "fields": {
+    "user": [
+      "patrick"
+    ],
+    "title": "iris.csv",
+    "file": "csv_files/upload_iriscsv_2025-02-14_15h24.csv",
+    "uploaded_at": "2025-02-14T15:24:44.223Z",
+    "last_viewed": "2025-02-14T15:33:30.345Z",
+    "view_count": 11,
+    "operations_log": [],
+    "rows_count": 0,
+    "columns_count": 0,
+    "ml_models": {}
+  }
+},
+{
+  "model": "csv_processor.csvfile",
+  "pk": 168,
+  "fields": {
+    "user": [
+      "patrick"
+    ],
+    "title": "ai_clean_iris_202502141533.csv",
+    "file": "csv_files/ai_clean_iris_202502141533.csv",
+    "uploaded_at": "2025-02-14T15:33:33.346Z",
+    "last_viewed": "2025-02-14T15:33:33.431Z",
+    "view_count": 1,
+    "operations_log": [
+      {
+        "operation": "ai_clean",
+        "details": "Suppression de 1 lignes dupliquées. | Suppression de 4 valeurs aberrantes dans sepal.width.",
+        "timestamp": "2025-02-14T15:33:33.347877+00:00"
+      }
+    ],
+    "rows_count": 145,
+    "columns_count": 5,
+    "ml_models": {}
+  }
+},
+{
+  "model": "csv_processor.csvfile",
+  "pk": 172,
+  "fields": {
+    "user": [
+      "1saeed"
+    ],
+    "title": "2024-11-27T15-22_export.csv",
+    "file": "csv_files/upload_2024-11-27T15-22_exportcsv_2025-02-21_14h46.csv",
+    "uploaded_at": "2025-02-21T14:46:15.575Z",
+    "last_viewed": "2025-03-05T08:16:54.415Z",
+    "view_count": 15,
+    "operations_log": [],
+    "rows_count": 0,
+    "columns_count": 0,
+    "ml_models": {}
+  }
+},
+{
+  "model": "csv_processor.csvfile",
+  "pk": 173,
+  "fields": {
+    "user": [
+      "1saeed"
+    ],
+    "title": "iris.csv",
+    "file": "csv_files/upload_iriscsv_2025-03-05_08h17.csv",
+    "uploaded_at": "2025-03-05T08:17:53.663Z",
+    "last_viewed": "2025-03-05T15:22:21.336Z",
+    "view_count": 14,
+    "operations_log": [],
+    "rows_count": 0,
+    "columns_count": 0,
+    "ml_models": {}
+  }
+},
+{
+  "model": "csv_processor.csvfile",
+  "pk": 174,
+  "fields": {
+    "user": [
+      "yah"
+    ],
+    "title": "iris.csv",
+    "file": "csv_files/upload_iriscsv_2025-05-06_08h08.csv",
+    "uploaded_at": "2025-05-06T08:08:40.218Z",
+    "last_viewed": "2025-05-06T08:15:46.405Z",
+    "view_count": 18,
+    "operations_log": [],
+    "rows_count": 0,
+    "columns_count": 0,
+    "ml_models": {}
+  }
+},
+{
+  "model": "csv_processor.csvfile",
+  "pk": 179,
+  "fields": {
+    "user": [
+      "xxx"
+    ],
+    "title": "data.csv",
+    "file": "csv_files/upload_datacsv_2025-05-07_09h20.csv",
+    "uploaded_at": "2025-05-07T09:20:45.966Z",
+    "last_viewed": "2025-05-07T11:55:03.682Z",
+    "view_count": 13,
+    "operations_log": [],
+    "rows_count": 0,
+    "columns_count": 0,
+    "ml_models": {}
+  }
+},
+{
+  "model": "csv_processor.csvfile",
+  "pk": 185,
+  "fields": {
+    "user": [
+      "yoyo"
+    ],
+    "title": "iris.csv",
+    "file": "csv_files/upload_iriscsv_2025-05-11_15h23.csv",
+    "uploaded_at": "2025-05-11T15:23:12.896Z",
+    "last_viewed": "2025-05-12T16:02:21.025Z",
+    "view_count": 70,
+    "operations_log": [
+      {
+        "operation": "delete_model",
+        "details": {
+          "model_name": "tt",
+          "model_type": "classification"
+        },
+        "timestamp": "2025-05-11T17:39:29.379869+00:00"
+      },
+      {
+        "operation": "delete_model",
+        "details": {
+          "model_name": "iris",
+          "model_type": "regression"
+        },
+        "timestamp": "2025-05-11T17:48:25.648747+00:00"
+      },
+      {
+        "operation": "delete_model",
+        "details": {
+          "model_name": "iris",
+          "model_type": "classification"
+        },
+        "timestamp": "2025-05-12T11:43:10.474115+00:00"
+      },
+      {
+        "operation": "delete_model",
+        "details": {
+          "model_name": "iris class",
+          "model_type": "classification"
+        },
+        "timestamp": "2025-05-12T11:43:19.140995+00:00"
+      },
+      {
+        "operation": "delete_model",
+        "details": {
+          "model_name": "eee",
+          "model_type": "classification"
+        },
+        "timestamp": "2025-05-12T11:44:38.557488+00:00"
+      }
+    ],
+    "rows_count": 0,
+    "columns_count": 0,
+    "ml_models": {
+      "zzz": {
+        "path": "ml_models/185/zzz.joblib",
+        "features": [
+          "sepal.length",
+          "sepal.width",
+          "petal.length",
+          "petal.width"
+        ],
+        "model_type": "classification",
+        "metrics": {
+          "target_column": "variety",
+          "cv_scores_mean": 0.9416666666666668,
+          "cv_scores_std": 0.05651941652604389,
+          "algorithm": "Decision Tree",
+          "created_at": "2025-05-12T11:44:51.571065+00:00",
+          "original_classes": [
+            "Setosa",
+            "Versicolor",
+            "Virginica"
+          ],
+          "accuracy": 1.0,
+          "0_precision": 1.0,
+          "0_recall": 1.0,
+          "0_f1-score": 1.0,
+          "0_support": 10.0,
+          "1_precision": 1.0,
+          "1_recall": 1.0,
+          "1_f1-score": 1.0,
+          "1_support": 9.0,
+          "2_precision": 1.0,
+          "2_recall": 1.0,
+          "2_f1-score": 1.0,
+          "2_support": 11.0,
+          "macro avg_precision": 1.0,
+          "macro avg_recall": 1.0,
+          "macro avg_f1-score": 1.0,
+          "macro avg_support": 30.0,
+          "weighted avg_precision": 1.0,
+          "weighted avg_recall": 1.0,
+          "weighted avg_f1-score": 1.0,
+          "weighted avg_support": 30.0,
+          "mlflow_run_id": "f915410018fd497dbf8efe60bbfc530f"
+        }
+      },
+      "iris": {
+        "path": "ml_models/185/iris.joblib",
+        "features": [
+          "sepal.length",
+          "sepal.width",
+          "petal.length",
+          "petal.width"
+        ],
+        "model_type": "classification",
+        "metrics": {
+          "target_column": "variety",
+          "cv_scores_mean": 0.9416666666666668,
+          "cv_scores_std": 0.05651941652604389,
+          "algorithm": "Decision Tree",
+          "created_at": "2025-05-12T16:02:35.515462+00:00",
+          "original_classes": [
+            "Setosa",
+            "Versicolor",
+            "Virginica"
+          ],
+          "accuracy": 1.0,
+          "0_precision": 1.0,
+          "0_recall": 1.0,
+          "0_f1-score": 1.0,
+          "0_support": 10.0,
+          "1_precision": 1.0,
+          "1_recall": 1.0,
+          "1_f1-score": 1.0,
+          "1_support": 9.0,
+          "2_precision": 1.0,
+          "2_recall": 1.0,
+          "2_f1-score": 1.0,
+          "2_support": 11.0,
+          "macro avg_precision": 1.0,
+          "macro avg_recall": 1.0,
+          "macro avg_f1-score": 1.0,
+          "macro avg_support": 30.0,
+          "weighted avg_precision": 1.0,
+          "weighted avg_recall": 1.0,
+          "weighted avg_f1-score": 1.0,
+          "weighted avg_support": 30.0,
+          "mlflow_run_id": "618a1808a74a48a1bf9fcc60633d7a8d"
+        }
+      }
+    }
+  }
+},
+{
+  "model": "csv_processor.csvfile",
+  "pk": 186,
+  "fields": {
+    "user": [
+      "yoyo1"
+    ],
+    "title": "iris.csv",
+    "file": "csv_files/upload_iriscsv_2025-05-11_15h30.csv",
+    "uploaded_at": "2025-05-11T15:30:27.060Z",
+    "last_viewed": "2025-05-12T11:17:56.133Z",
+    "view_count": 9,
+    "operations_log": [],
+    "rows_count": 0,
+    "columns_count": 0,
+    "ml_models": {
+      "iris": {
+        "path": "ml_models/186/iris.joblib",
+        "features": [
+          "sepal.length",
+          "sepal.width",
+          "petal.length",
+          "petal.width"
+        ],
+        "model_type": "classification",
+        "metrics": {
+          "target_column": "variety",
+          "cv_scores_mean": 0.9416666666666668,
+          "cv_scores_std": 0.05651941652604389,
+          "algorithm": "Decision Tree",
+          "created_at": "2025-05-11T15:32:45.296701+00:00",
+          "original_classes": [
+            "Setosa",
+            "Versicolor",
+            "Virginica"
+          ],
+          "accuracy": 1.0,
+          "0_precision": 1.0,
+          "0_recall": 1.0,
+          "0_f1-score": 1.0,
+          "0_support": 10.0,
+          "1_precision": 1.0,
+          "1_recall": 1.0,
+          "1_f1-score": 1.0,
+          "1_support": 9.0,
+          "2_precision": 1.0,
+          "2_recall": 1.0,
+          "2_f1-score": 1.0,
+          "2_support": 11.0,
+          "macro avg_precision": 1.0,
+          "macro avg_recall": 1.0,
+          "macro avg_f1-score": 1.0,
+          "macro avg_support": 30.0,
+          "weighted avg_precision": 1.0,
+          "weighted avg_recall": 1.0,
+          "weighted avg_f1-score": 1.0,
+          "weighted avg_support": 30.0,
+          "mlflow_run_id": "6286ea3118d44f229b7eca9d6538c866"
+        }
+      },
+      "uuuu": {
+        "path": "ml_models/186/uuuu.joblib",
+        "features": [
+          "sepal.width",
+          "petal.length",
+          "petal.width"
+        ],
+        "model_type": "regression",
+        "metrics": {
+          "target_column": "sepal.length",
+          "cv_scores_mean": 0.6939884409363628,
+          "cv_scores_std": 0.16529126776984504,
+          "algorithm": "Decision Tree",
+          "created_at": "2025-05-12T11:12:20.586553+00:00",
+          "r2_score": 0.6564129804906317,
+          "mean_squared_error": 0.2371666666666667,
+          "mlflow_run_id": "cd7af1a4cf1746609412cb8c163a58d2"
+        }
+      }
+    }
+  }
+},
+{
+  "model": "csv_processor.csvfile",
+  "pk": 190,
+  "fields": {
+    "user": [
+      "yayaya"
+    ],
+    "title": "titanic.csv",
+    "file": "csv_files/upload_titaniccsv_2025-08-20_20h51.csv",
+    "uploaded_at": "2025-08-20T20:51:54.921Z",
+    "last_viewed": "2025-08-29T18:18:14.936Z",
+    "view_count": 2,
+    "operations_log": [],
+    "rows_count": 0,
+    "columns_count": 0,
+    "ml_models": {}
+  }
+},
+{
+  "model": "csv_processor.csvfile",
+  "pk": 195,
+  "fields": {
+    "user": [
+      "john"
+    ],
+    "title": "titanic.csv",
+    "file": "csv_files/upload_titaniccsv_2025-09-01_16h30.csv",
+    "uploaded_at": "2025-09-01T16:30:52.688Z",
+    "last_viewed": "2025-09-01T16:31:11.913Z",
+    "view_count": 3,
+    "operations_log": [],
+    "rows_count": 0,
+    "columns_count": 0,
+    "ml_models": {}
+  }
+},
+{
+  "model": "csv_processor.csvfile",
+  "pk": 196,
+  "fields": {
+    "user": [
+      "john"
+    ],
+    "title": "iris.csv",
+    "file": "csv_files/upload_iriscsv_2025-09-01_16h37.csv",
+    "uploaded_at": "2025-09-01T16:37:00.379Z",
+    "last_viewed": "2025-09-01T16:37:03.048Z",
+    "view_count": 2,
+    "operations_log": [],
+    "rows_count": 0,
+    "columns_count": 0,
+    "ml_models": {
+      "test": {
+        "path": "ml_models/196/test.joblib",
+        "features": [
+          "sepal.length",
+          "sepal.width",
+          "petal.length",
+          "petal.width"
+        ],
+        "model_type": "classification",
+        "metrics": {
+          "target_column": "variety",
+          "cv_scores_mean": 0.9416666666666667,
+          "cv_scores_std": 0.05651941652604389,
+          "algorithm": "Random Forest",
+          "created_at": "2025-09-01T16:37:39.358354+00:00",
+          "original_classes": [
+            "Setosa",
+            "Versicolor",
+            "Virginica"
+          ],
+          "accuracy": 1.0,
+          "0_precision": 1.0,
+          "0_recall": 1.0,
+          "0_f1-score": 1.0,
+          "0_support": 10.0,
+          "1_precision": 1.0,
+          "1_recall": 1.0,
+          "1_f1-score": 1.0,
+          "1_support": 9.0,
+          "2_precision": 1.0,
+          "2_recall": 1.0,
+          "2_f1-score": 1.0,
+          "2_support": 11.0,
+          "macro avg_precision": 1.0,
+          "macro avg_recall": 1.0,
+          "macro avg_f1-score": 1.0,
+          "macro avg_support": 30.0,
+          "weighted avg_precision": 1.0,
+          "weighted avg_recall": 1.0,
+          "weighted avg_f1-score": 1.0,
+          "weighted avg_support": 30.0,
+          "mlflow_run_id": "d7c70db5704a4d97942fde301b7b8aef"
+        }
+      }
+    }
+  }
+},
+{
+  "model": "csv_processor.csvfile",
+  "pk": 203,
+  "fields": {
+    "user": [
+      "yoyoyo"
+    ],
+    "title": "titanic.csv",
+    "file": "csv_files/upload_titaniccsv_2025-09-03_01h16.csv",
+    "uploaded_at": "2025-09-03T01:16:03.667Z",
+    "last_viewed": "2025-09-03T01:16:06.193Z",
+    "view_count": 2,
+    "operations_log": [],
+    "rows_count": 0,
+    "columns_count": 0,
+    "ml_models": {}
+  }
+},
+{
+  "model": "csv_processor.csvfile",
+  "pk": 204,
+  "fields": {
+    "user": [
+      "yoyoyo"
+    ],
+    "title": "iris.csv",
+    "file": "csv_files/upload_iriscsv_2025-09-03_01h16.csv",
+    "uploaded_at": "2025-09-03T01:16:32.361Z",
+    "last_viewed": "2025-09-03T01:25:30.285Z",
+    "view_count": 6,
+    "operations_log": [],
+    "rows_count": 0,
+    "columns_count": 0,
+    "ml_models": {
+      "iris": {
+        "path": "ml_models/204/iris.joblib",
+        "features": [
+          "sepal.width",
+          "petal.length",
+          "petal.width",
+          "variety"
+        ],
+        "model_type": "regression",
+        "metrics": {
+          "target_column": "sepal.length",
+          "cv_scores_mean": 0.8353781002013994,
+          "cv_scores_std": 0.030476298687790226,
+          "algorithm": "Random Forest",
+          "created_at": "2025-09-03T01:20:02.161420+00:00",
+          "label_encoders": {
+            "variety": {
+              "classes_": [
+                "Setosa",
+                "Versicolor",
+                "Virginica"
+              ]
+            }
+          },
+          "r2_score": 0.8620945199273928,
+          "mean_squared_error": 0.09519155604478498,
+          "mlflow_run_id": "1e8350a60e58498ab37a1230f7e75548"
+        }
+      }
+    }
+  }
+},
+{
+  "model": "csv_processor.fakeerrorlog",
+  "pk": 1,
+  "fields": {
+    "message": "Test fake error",
+    "created_at": "2025-08-31T01:38:11.712Z"
+  }
+}
+]

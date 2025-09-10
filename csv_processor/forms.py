@@ -1,5 +1,6 @@
 from django import forms
 from .models import CSVFile
+from .models import Feedback
 
 class CSVUploadForm(forms.ModelForm):
     class Meta:
@@ -83,3 +84,22 @@ class ColumnOperationForm(forms.Form):
         required=False,
         help_text='Nouvelle valeur (uniquement pour l\'opération "Remplacer")'
     )
+
+
+class FeedbackForm(forms.ModelForm):
+    class Meta:
+        model = Feedback
+        fields = ['email', 'message']
+        labels = {
+            'email': 'Email (optionnel)',
+            'message': 'Votre message'
+        }
+        help_texts = {
+            'message': 'Partagez votre retour ou vos suggestions'
+        }
+
+    def clean_message(self):
+        msg = self.cleaned_data.get('message', '').strip()
+        if not msg:
+            raise forms.ValidationError("Le message ne peut pas être vide.")
+        return msg

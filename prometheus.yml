@@ -8,6 +8,12 @@ scrape_configs:
       - targets: ['web:8000']  
     metrics_path: '/metrics'
 
+  #  localhost
+  - job_name: 'django_local'
+    static_configs:
+      - targets: ['localhost:8000']  
+    metrics_path: '/metrics'
+
   # Node Exporter
   - job_name: 'system'
     static_configs:
