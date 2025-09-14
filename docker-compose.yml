@@ -1,4 +1,4 @@
-
+version: '3.8'
 
 services:
   web:
@@ -13,12 +13,13 @@ services:
       - DJANGO_SETTINGS_MODULE=csv_analyzer.settings
       - POSTGRES_DB=csv_analyzer_db
       - POSTGRES_USER=csv_user
-      - POSTGRES_PASSWORD=password
+      - POSTGRES_PASSWORD=csv_password
       - POSTGRES_HOST=db
       - POSTGRES_PORT=5432
     depends_on:
       - db
       - prometheus
+      - mlflow
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000/"]
       interval: 30s
@@ -52,8 +53,8 @@ services:
     volumes:
       - ./grafana/dashboards:/var/lib/grafana/dashboards
     environment:
-      - GF_SECURITY_ADMIN_PASSWORD=admin
       - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
     depends_on:
       - prometheus
 
@@ -69,6 +70,24 @@ services:
       - '--path.procfs=/host/proc'
       - '--path.sysfs=/host/sys'
       - '--collector.filesystem.ignored-mount-points=^/(sys|proc|dev|host|etc)($$|/)'
+
+  mlflow:
+    image: ghcr.io/mlflow/mlflow:v2.0.1
+    container_name: mlflow
+    ports:
+      - "5050:5000"
+    volumes:
+      - ./mlruns:/mlflow/mlruns
+    environment:
+      - MLFLOW_TRACKING_URI=http://mlflow:5000
+    command: >
+      mlflow server
+      --backend-store-uri /mlflow/mlruns
+      --default-artifact-root /mlflow/mlruns
+      --host 0.0.0.0
+      --port 5000
+    depends_on:
+      - db
 
 volumes:
   postgres_data:

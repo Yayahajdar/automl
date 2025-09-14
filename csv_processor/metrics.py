@@ -3,6 +3,11 @@ from prometheus_client import Counter
 
 django_errors_total = Counter(
     'django_errors_total',
+    'Total number of errors in Django app',    
+)
+
+django_errors_total = Counter(
+    'django_errors_total',
     'Total number of errors in Django app',
     
      
